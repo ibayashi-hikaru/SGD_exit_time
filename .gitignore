@@ -8,3 +8,4 @@ results/
 *.sh
 test_data
 *dat
+MLP_init_params.pt
