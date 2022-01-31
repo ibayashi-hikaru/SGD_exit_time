@@ -164,27 +164,30 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[0].set_ylim(bottom=0, top=None)
     ax1[0].legend([f'Corr: {coeff:.3g}'])
     #
-    exp_coeff, _ = stats.pearsonr(np.exp(1/x), y)
-    A = np.vstack([np.exp(1/x), np.ones(len(x))]).T
-    exp_m, exp_c = np.linalg.lstsq(A, y, rcond=None)[0]
     # Log
-    ax1[1].set_xlabel("exp(1/sharpness)")
-    ax1[1].set_ylabel("exit time")
-    ax1[1].errorbar(np.exp(1/x), y, yerr=std, fmt='.k') 
+    x_2 = x
+    y_2 = 1/np.log(y)
+    coeff_2, _ = stats.pearsonr(x_2, y_2)
+    A = np.vstack([x_2, np.ones(len(x))]).T
+    m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
+    ax1[1].set_xlabel("sharpness")
+    ax1[1].set_ylabel("1/log(exit time)")
+    ax1[1].errorbar(x_2, y_2, yerr=std, fmt='.k') 
     # ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c)
     # ax1[1].set_xscale("log") 
-    ax1[1].legend([f'Corr: {exp_coeff:.3g}'])
+    ax1[1].legend([f'Corr: {coeff_2:.3g}'])
     # # Log quad
-    sqrt_exp_coeff, _ = stats.pearsonr(np.exp(1/np.sqrt(x)), y)
-    A = np.vstack([np.exp(1/np.sqrt(x)), np.ones(len(x))]).T
-    sqrt_exp_m, sqrt_exp_c = np.linalg.lstsq(A, y, rcond=None)[0]
-    # Log
-    ax1[2].set_xlabel("exp(1/sqrt(sharpness))")
-    ax1[2].set_ylabel("exit time")
-    ax1[2].errorbar(np.exp(1/np.sqrt(x)), y, yerr=std, fmt='.k') 
+    x_3 = x
+    y_3 = 1/(np.log(y)**2)
+    coeff_3, _ = stats.pearsonr(x_3, y_3)
+    A = np.vstack([x_3, np.ones(len(x_3))]).T
+    m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
+    ax1[2].set_xlabel("sharpness")
+    ax1[2].set_ylabel("1/log(exit time)^2")
+    ax1[2].errorbar(x_3, y_3, yerr=std, fmt='.k') 
     # ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c)
     # ax1[2].set_xscale("log") 
-    ax1[2].legend([f'Corr: {sqrt_exp_coeff:.3g}'])
+    ax1[2].legend([f'Corr: {coeff_3:.3g}'])
     # Learning rate
     draw_subfig(ax2, *lr_results, "lr")
     # Learning rate
