@@ -355,11 +355,11 @@ def main():
     if rank == 0 and config["model"] == 'MLP':
         report("Training Started")
         print( end="", flush=True)
+        model = get_model(config, 1)
         for _ in range(10000):
-            model = get_model(config, 1)
             model(dataset.train.x).backward()
-            model.update(0.001)
-            torch.save(model.state_dict(), "./MLP_init_params.pt")
+            model.update(0.0001)
+        torch.save(model.state_dict(), "./MLP_init_params.pt")
     comm.Barrier()
     #
     # Sharpess
