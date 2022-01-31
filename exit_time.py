@@ -186,6 +186,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
     ax1[2].plot(x_3, m_3*x_3 + c_3)
     ax1[2].legend([f'Corr: {coeff_3:.3g}'])
+    ax1[2].set_title(f'aaaa')
     # Learning rate
     draw_subfig(ax2, *lr_results, "lr")
     # Learning rate
