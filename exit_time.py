@@ -19,8 +19,7 @@ def get_exit_time(config, lr, sharpness, batch_size, r):
         return distance.item()
 
     exit_time = 0
-    # while(distance(init_model, model) < config['r']):
-    while(model(dataset.train.x) - init_model(dataset.train.x) < r):
+    while(distance(init_model, model) < r):
         if config["optim"] == "SGD":
             data_size = dataset.train.x.size()[0]
             shuffled_data = dataset.train.x[torch.randperm(data_size)]
@@ -323,8 +322,8 @@ def main():
     config['num_dim'] = 100
     config['sharpness_min'] = 1
     config['sharpness_interval'] = 10 
-    config['r_min'] = 0.001 
-    config['r_interval'] = 0.005
+    config['r_min'] = 0.1 
+    config['r_interval'] = 0.05
     config['lr_min'] = 0.001
     config['lr_interval'] = 0.01 
     config['batch_size_min'] = 20 
