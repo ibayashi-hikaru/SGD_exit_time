@@ -171,16 +171,20 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[1].set_xlabel("exp(1/sharpness)")
     ax1[1].set_ylabel("exit time")
     ax1[1].errorbar(np.exp(1/x), y, yerr=std, fmt='.k') 
-    ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c)
-    ax1[1].set_xscale("log") 
+    # ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c)
+    # ax1[1].set_xscale("log") 
     ax1[1].legend([f'Corr: {exp_coeff:.3g}'])
     # # Log quad
-    # ax[2].set_xlabel(h_param_name)
-    # ax[2].set_ylabel("log(exit time)")
-    # ax[2].errorbar(x, y, yerr=std, fmt='.k') 
-    # ax[2].plot(x, np.exp(log_m*x + log_c)) 
-    # ax[2].set_yscale("log") 
-    # ax[2].legend([f'Corr: {log_coeff:.3g}'])
+    sqrt_exp_coeff, _ = stats.pearsonr(np.exp(1/np.sqrt(x)), y)
+    A = np.vstack([np.exp(1/np.sqrt(x)), np.ones(len(x))]).T
+    sqrt_exp_m, sqrt_exp_c = np.linalg.lstsq(A, y, rcond=None)[0]
+    # Log
+    ax1[2].set_xlabel("exp(1/sqrt(sharpness))")
+    ax1[2].set_ylabel("exit time")
+    ax1[2].errorbar(np.exp(1/np.sqrt(x)), y, yerr=std, fmt='.k') 
+    # ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c)
+    # ax1[2].set_xscale("log") 
+    ax1[2].legend([f'Corr: {sqrt_exp_coeff:.3g}'])
     # Learning rate
     draw_subfig(ax2, *lr_results, "lr")
     # Learning rate
