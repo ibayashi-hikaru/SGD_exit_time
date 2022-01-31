@@ -185,7 +185,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[2].set_xlabel("sharpness")
     ax1[2].set_ylabel("1/log(exit time)^2")
     ax1[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
-    # ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c)
+    ax1[2].plot(x_3, m_3*x_3 + c_3)
     # ax1[2].set_xscale("log") 
     ax1[2].legend([f'Corr: {coeff_3:.3g}'])
     # Learning rate
