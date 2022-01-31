@@ -175,6 +175,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[1].errorbar(x_2, y_2, yerr=std*0, fmt='.k') 
     ax1[1].plot(x_2, m_2*x_2 + c_2)
     ax1[1].legend([f'Corr: {coeff_2:.3g}'])
+    ax1[2].set_title(f'exp(sharpness^(-1))')
     # # Log quad
     x_3 = x
     y_3 = 1/(np.log(y)**2)
@@ -186,7 +187,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
     ax1[2].plot(x_3, m_3*x_3 + c_3)
     ax1[2].legend([f'Corr: {coeff_3:.3g}'])
-    ax1[2].set_title(f'aaaa')
+    ax1[2].set_title(f'exp(sharpness^(-1/2))')
     # Learning rate
     draw_subfig(ax2, *lr_results, "lr")
     # Learning rate
