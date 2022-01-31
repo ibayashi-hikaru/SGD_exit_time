@@ -172,7 +172,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[1].set_ylabel("exit time")
     ax1[1].errorbar(np.exp(1/x), y, yerr=std, fmt='.k') 
     # ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c)
-    ax1[1].set_xscale("log") 
+    # ax1[1].set_xscale("log") 
     ax1[1].legend([f'Corr: {exp_coeff:.3g}'])
     # # Log quad
     sqrt_exp_coeff, _ = stats.pearsonr(np.exp(1/np.sqrt(x)), y)
@@ -183,7 +183,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[2].set_ylabel("exit time")
     ax1[2].errorbar(np.exp(1/np.sqrt(x)), y, yerr=std, fmt='.k') 
     # ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c)
-    ax1[2].set_xscale("log") 
+    # ax1[2].set_xscale("log") 
     ax1[2].legend([f'Corr: {sqrt_exp_coeff:.3g}'])
     # Learning rate
     draw_subfig(ax2, *lr_results, "lr")
