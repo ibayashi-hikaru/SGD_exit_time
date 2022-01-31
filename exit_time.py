@@ -128,14 +128,22 @@ def draw(sharpness_results, lr_results, batch_size_results):
         log_coeff, _ = stats.pearsonr(x,np.log(y))
         A = np.vstack([x, np.ones(len(x))]).T
         m, c = np.linalg.lstsq(A, y, rcond=None)[0]
+        quad_m, quad_c = np.linalg.lstsq(A, y**2, rcond=None)[0]
         # log_m, log_c = np.linalg.lstsq(A, np.log(y), rcond=None)[0]
-        #
+        # 
         ax[0].set_xlabel(h_param_name)
         ax[0].set_ylabel("1 / log(exit time)")
         ax[0].errorbar(x, y, yerr=std, fmt='.k') 
         ax[0].plot(x, m*x + c) 
         ax[0].set_ylim(bottom=0, top=None)
         ax[0].legend([f'Corr: {coeff:.3g}'])
+        #
+        ax[1].set_xlabel(h_param_name)
+        ax[1].set_ylabel("1 / (log(exit time))^2")
+        ax[1].errorbar(x, y**2, yerr=std, fmt='.k') 
+        ax[1].plot(x, quad_m*x + quad_c) 
+        ax[1].set_ylim(bottom=0, top=None)
+        ax[1].legend([f'Corr: {coeff:.3g}'])
 
         # Log
         # ax[1].set_xlabel(h_param_name)
