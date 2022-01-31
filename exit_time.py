@@ -326,7 +326,7 @@ def main():
     config['r_min'] = 0.001 
     config['r_interval'] = 0.005
     config['lr_min'] = 0.001
-    config['lr_interval'] = 0.005 
+    config['lr_interval'] = 0.01 
     config['batch_size_min'] = 20 
     config['batch_size_interval'] = 80 
     config['exit_trial_num'] = 100 
