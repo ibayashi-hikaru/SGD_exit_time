@@ -270,8 +270,8 @@ def main():
     config['r'] = 0.001 
     config['lr_min'] = 0.001
     config['lr_interval'] = 0.005 
-    config['batch_size_min'] = 1 
-    config['batch_size_interval'] = 100 
+    config['batch_size_min'] = 20 
+    config['batch_size_interval'] = 80 
     config['exit_trial_num'] = 100 
     config['interval_sample'] = 10 
     config['optim'] = "SGD"
