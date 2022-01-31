@@ -172,7 +172,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax1[1].set_xlabel("sharpness")
     ax1[1].set_ylabel("1/log(exit time)")
-    ax1[1].errorbar(x_2, y_2, yerr=std, fmt='.k') 
+    ax1[1].errorbar(x_2, y_2, yerr=std*0, fmt='.k') 
     # ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c)
     # ax1[1].set_xscale("log") 
     ax1[1].legend([f'Corr: {coeff_2:.3g}'])
@@ -184,7 +184,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
     ax1[2].set_xlabel("sharpness")
     ax1[2].set_ylabel("1/log(exit time)^2")
-    ax1[2].errorbar(x_3, y_3, yerr=std, fmt='.k') 
+    ax1[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
     # ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c)
     # ax1[2].set_xscale("log") 
     ax1[2].legend([f'Corr: {coeff_3:.3g}'])
