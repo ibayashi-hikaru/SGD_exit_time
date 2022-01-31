@@ -175,8 +175,8 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[1].errorbar(x_2, y_2, yerr=std*0, fmt='.k') 
     ax1[1].plot(x_2, m_2*x_2 + c_2)
     ax1[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax1[2].set_title(f'exp(sharpness^(-1))')
-    # # Log quad
+    ax1[1].set_title(f'exp(sharpness^(-1))')
+    # Log quad
     x_3 = x
     y_3 = 1/(np.log(y)**2)
     coeff_3, _ = stats.pearsonr(x_3, y_3)
