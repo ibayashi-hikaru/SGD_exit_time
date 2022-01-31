@@ -321,7 +321,7 @@ def main():
     config['seed'] = -1
     config['num_dim'] = 100
     config['sharpness_min'] = 0
-    config['sharpness_interval'] = 10 
+    config['sharpness_interval'] = 0.3 
     config['r_min'] = 0.1 
     config['r_interval'] = 0.05
     config['lr_min'] = 0.001
