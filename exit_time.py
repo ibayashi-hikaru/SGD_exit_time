@@ -249,21 +249,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax3[1].plot(x_2, m_2*x_2 + c_2)
     ax3[1].legend([f'Corr: {coeff_2:.3g}'])
     ax3[1].set_title(f'exp(batch size)')
-    #
-    # x_3 = x
-    # y_3 = 1/(np.log(y)**2)
-    # coeff_3, _ = stats.pearsonr(x_3, y_3)
-    # A = np.vstack([x_3, np.ones(len(x_3))]).T
-    # m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
-    # ax3[2].set_xlabel("lr")
-    # ax3[2].set_ylabel("1/log(exit time)^2")
-    # ax3[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
-    # ax3[2].plot(x_3, m_3*x_3 + c_3)
-    # ax3[2].legend([f'Corr: {coeff_3:.3g}'])
-    # ax3[2].set_title(f'exp(lr^(-1/2))')
-    # draw_subfig(ax3, *batch_size_results, "batch_size")
 
-    # plt.suptitle(datetime.datetime.now().strftime('    %H:%M:%S'))
     plt.tight_layout()
     plt.show()
     fig.savefig("results.png",dpi=300)
@@ -284,8 +270,8 @@ def main():
     config['r'] = 0.001 
     config['lr_min'] = 0.001
     config['lr_interval'] = 0.005 
-    config['batch_size_min'] = 2 
-    config['batch_size_interval'] = 10 
+    config['batch_size_min'] = 1 
+    config['batch_size_interval'] = 100 
     config['exit_trial_num'] = 100 
     config['interval_sample'] = 10 
     config['optim'] = "SGD"
