@@ -277,9 +277,9 @@ def main():
     config['optim'] = "SGLD"
     #
     config['data'] = 'AVILA2'
-    # config['model'] = 'quad_func'
+    config['model'] = 'quad_func'
     # config['model'] = 'styblinski_tang_func'
-    config['model']   = 'MLP'
+    # config['model']   = 'MLP'
 
     #
     comm = MPI.COMM_WORLD
@@ -315,7 +315,7 @@ def main():
     lr_results         = get_lr_vs_exit_time(config, comm)
     # batchsize
     if rank == 0:
-        report("Batch Sizse Analysis Started")
+        report("Batch Sizes Analysis Started")
         print(end="", flush=True)
     batch_size_results = get_batch_size_vs_exit_time(config, comm)
     if rank == 0: draw(sharpness_results, lr_results, batch_size_results)
