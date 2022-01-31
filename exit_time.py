@@ -358,6 +358,7 @@ def main():
             model(dataset.train.x).backward()
             model.update(0.001)
             torch.save(model.state_dict(), "./MLP_init_params.pt")
+    comm.Barrier()
     #
     # Sharpess
     if rank == 0:
