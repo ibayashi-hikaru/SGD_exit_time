@@ -52,9 +52,6 @@ def get_lr_vs_exit_time(config, comm):
                                             config['sharpness_min'],
                                             config['batch_size_min'])
             sample_id += comm_size
-            if rank == 0:
-                report(sample_id)
-                print(end="", flush=True)
         comm.Barrier()
         if rank==0:
             total = np.zeros_like(data) 
@@ -185,13 +182,18 @@ def main():
     # config['model'] = 'styblinski_tang_func'
     config['model']   = 'MLP'
 
-    # config['exit_trial_num'] = 10 
-    # config['interval_sample'] = 2 
     #
-    set_device(config)
     comm = MPI.COMM_WORLD
     comm_size = comm.Get_size()
     rank = comm.Get_rank()
+
+    if sys.argv[1] == "sanity_check":
+        config['exit_trial_num'] = 10 
+        config['interval_sample'] = 2 
+        if rank == 0:
+            report("Runnig Sanity Check")
+            print(end="", flush=True)
+    set_device(config)
     #
     global dataset 
     dataset = get_dataset(config)
@@ -203,10 +205,19 @@ def main():
             torch.save(model.state_dict(), "./MLP_init_params.pt")
     #
     # Sharpess
+    if rank == 0:
+        report("Sharpness Analysis Started")
+        print( end="", flush=True)
     sharpness_results  = get_sharpness_vs_exit_time(config, comm)
     # Learning ratae
+    if rank == 0:
+        report("LR Analysis Started")
+        print(end="", flush=True)
     lr_results         = get_lr_vs_exit_time(config, comm)
     # batchsize
+    if rank == 0:
+        report("Batch Sizse Analysis Started")
+        print(end="", flush=True)
     batch_size_results = get_batch_size_vs_exit_time(config, comm)
     if rank == 0: draw(sharpness_results, lr_results, batch_size_results)
     
