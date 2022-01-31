@@ -248,7 +248,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax3[1].errorbar(x_2, y_2, yerr=std*0, fmt='.k') 
     ax3[1].plot(x_2, m_2*x_2 + c_2)
     ax3[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax3[1].set_title(f'exp(batch size)')
+    ax3[1].set_title(f'tau = exp(batch size)')
 
     plt.tight_layout()
     plt.show()
@@ -271,7 +271,7 @@ def main():
     config['lr_min'] = 0.001
     config['lr_interval'] = 0.005 
     config['batch_size_min'] = 20 
-    config['batch_size_interval'] = 80 
+    config['batch_size_interval'] = 100 
     config['exit_trial_num'] = 100 
     config['interval_sample'] = 10 
     config['optim'] = "SGD"
