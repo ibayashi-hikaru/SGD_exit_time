@@ -6,7 +6,7 @@ dataset = None
 #
 import torch
 import copy
-def get_exit_time(config, lr, sharpness, batch_size):
+def get_exit_time(config, lr, sharpness, batch_size, r):
     model = get_model(config, sharpness)
     model.init_params()
     init_model = copy.deepcopy(model)
@@ -20,7 +20,7 @@ def get_exit_time(config, lr, sharpness, batch_size):
 
     exit_time = 0
     # while(distance(init_model, model) < config['r']):
-    while(model(dataset.train.x) - init_model(dataset.train.x) < config['r']):
+    while(model(dataset.train.x) - init_model(dataset.train.x) < r):
         if config["optim"] == "SGD":
             data_size = dataset.train.x.size()[0]
             shuffled_data = dataset.train.x[torch.randperm(data_size)]
@@ -51,7 +51,8 @@ def get_lr_vs_exit_time(config, comm):
             data[sample_id] = get_exit_time(config,
                                             lr,
                                             config['sharpness_min'],
-                                            config['batch_size_min'])
+                                            config['batch_size_min'],
+                                            config['r_min'])
             sample_id += comm_size
         comm.Barrier()
         if rank==0:
@@ -79,7 +80,8 @@ def get_sharpness_vs_exit_time(config, comm):
             data[sample_id] = get_exit_time(config,
                                             config['lr_min'],
                                             sharpness,
-                                            config['batch_size_min'])
+                                            config['batch_size_min'],
+                                            config['r_min'])
             sample_id += comm_size
         comm.Barrier()
         if rank==0:
@@ -107,7 +109,8 @@ def get_batch_size_vs_exit_time(config, comm):
             data[sample_id] = get_exit_time(config,
                                             config['lr_min'],
                                             config["sharpness_min"],
-                                            bs)
+                                            bs,
+                                            config['r_min'])
             sample_id += comm_size
         comm.Barrier()
         if rank==0:
@@ -119,10 +122,38 @@ def get_batch_size_vs_exit_time(config, comm):
             exit_time_arr = np.append(exit_time_arr, np.mean(total))
             std_arr = np.append(std_arr, np.std(total))
     return (bs_arr, exit_time_arr, std_arr)
+def get_r_vs_exit_time(config, comm):
+    comm_size = comm.Get_size()
+    rank = comm.Get_rank()
+    r_arr = np.linspace(config['r_min'], 
+                         config['r_min'] + config['r_interval'],
+                         config['interval_sample'])
+    data = np.zeros(config['exit_trial_num'])
+    exit_time_arr = np.zeros((0,1))
+    std_arr = np.zeros((0,1))
+    for r in r_arr:
+        sample_id = rank
+        while sample_id < config['exit_trial_num']:
+            data[sample_id] = get_exit_time(config,
+                                            config['lr_min'],
+                                            config["sharpness_min"],
+                                            config["batch_size_min"],
+                                            r)
+            sample_id += comm_size
+        comm.Barrier()
+        if rank==0:
+            total = np.zeros_like(data) 
+        else:
+            total = None 
+        comm.Reduce( [data, MPI.DOUBLE], [total, MPI.DOUBLE], op = MPI.SUM, root = 0)
+        if rank==0:
+            exit_time_arr = np.append(exit_time_arr, np.mean(total))
+            std_arr = np.append(std_arr, np.std(total))
+    return (r_arr, exit_time_arr, std_arr)
 import matplotlib.pyplot as plt
 from scipy import stats
-def draw(sharpness_results, lr_results, batch_size_results):
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 3, figsize=(12, 12))
+def draw(sharpness_results, lr_results, batch_size_results, r_results):
+    fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 3, figsize=(12, 16))
     def draw_subfig(ax, x, y, std, h_param_name):
         coeff, _ = stats.pearsonr(x, y)
         log_coeff, _ = stats.pearsonr(x,np.log(y))
@@ -249,6 +280,30 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax3[1].plot(x_2, m_2*x_2 + c_2)
     ax3[1].legend([f'Corr: {coeff_2:.3g}'])
     ax3[1].set_title(f'tau = exp(batch size)')
+    # R
+    (x, y, std) = r_results
+    #
+    coeff, _ = stats.pearsonr(x, y)
+    A = np.vstack([x, np.ones(len(x))]).T
+    m, c = np.linalg.lstsq(A, y, rcond=None)[0]
+    ax4[0].set_xlabel("r")
+    ax4[0].set_ylabel("exit time")
+    ax4[0].errorbar(x, y, yerr=std, fmt='.k') 
+    ax4[0].plot(x, m*x + c) 
+    ax4[0].set_ylim(bottom=0, top=None)
+    ax4[0].legend([f'Corr: {coeff:.3g}'])
+    # Log
+    x_2 = x
+    y_2 = np.log(y)
+    coeff_2, _ = stats.pearsonr(x_2, y_2)
+    A = np.vstack([x_2, np.ones(len(x))]).T
+    m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
+    ax4[1].set_xlabel("batch size")
+    ax4[1].set_ylabel("log(exit time)")
+    ax4[1].errorbar(x_2, y_2, yerr=std*0, fmt='.k') 
+    ax4[1].plot(x_2, m_2*x_2 + c_2)
+    ax4[1].legend([f'Corr: {coeff_2:.3g}'])
+    ax4[1].set_title(f'tau = exp(batch size)')
 
     plt.tight_layout()
     plt.show()
@@ -267,7 +322,8 @@ def main():
     config['num_dim'] = 100
     config['sharpness_min'] = 1
     config['sharpness_interval'] = 10 
-    config['r'] = 0.001 
+    config['r_min'] = 0.001 
+    config['r_interval'] = 0.001 
     config['lr_min'] = 0.001
     config['lr_interval'] = 0.005 
     config['batch_size_min'] = 20 
@@ -318,7 +374,12 @@ def main():
         report("Batch Sizes Analysis Started")
         print(end="", flush=True)
     batch_size_results = get_batch_size_vs_exit_time(config, comm)
-    if rank == 0: draw(sharpness_results, lr_results, batch_size_results)
+    # r
+    if rank == 0:
+        report("r Analysis Started")
+        print(end="", flush=True)
+    r_results = get_r_vs_exit_time(config, comm)
+    if rank == 0: draw(sharpness_results, lr_results, batch_size_results, r_results)
     
 
 if __name__=='__main__':
