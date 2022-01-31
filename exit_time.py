@@ -147,7 +147,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     # Sharpness 
     # draw_subfig(ax1, *sharpness_results, "sharpness")
     (sharpness, exit_time, std) = sharpness_results
-    draw_subfig(ax2, 1.0/np.log(exit_time), sharpness, std, "sharpness")
+    draw_subfig(ax1, 1.0/np.log(exit_time), sharpness, std, "sharpness")
     # Learning rate
     # draw_subfig(ax2, *lr_results, "lr")
     (lr, exit_time, std) = lr_results
