@@ -164,16 +164,16 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[0].set_ylim(bottom=0, top=None)
     ax1[0].legend([f'Corr: {coeff:.3g}'])
     #
-    # log_coeff, _ = stats.pearsonr(np.exp(1/x), y)
-    # A = np.vstack([np.exp(1/x), np.ones(len(x))]).T
-    # log_m, log_c = np.linalg.lstsq(A, np.log(y), rcond=None)[0]
-    # # Log
-    # ax[1].set_xlabel(h_param_name)
-    # ax[1].set_ylabel("log(exit time)")
-    # ax[1].errorbar(x, y, yerr=std, fmt='.k') 
-    # ax[1].plot(x, np.exp(log_m*x + log_c)) 
-    # ax[1].set_yscale("log") 
-    # ax[1].legend([f'Corr: {log_coeff:.3g}'])
+    exp_coeff, _ = stats.pearsonr(np.exp(1/x), y)
+    A = np.vstack([np.exp(1/x), np.ones(len(x))]).T
+    exp_m, exp_c = np.linalg.lstsq(A, y, rcond=None)[0]
+    # Log
+    ax1[1].set_xlabel("exp(1/sharpness)")
+    ax1[1].set_ylabel("exit time")
+    ax1[1].errorbar(np.exp(1/x), y, yerr=std, fmt='.k') 
+    ax1[1].plot(x, np.log(exp_m*x + exp_c)) 
+    ax1[1].set_yscale("log") 
+    ax1[1].legend([f'Corr: {exp_coeff:.3g}'])
     # # Log quad
     # ax[2].set_xlabel(h_param_name)
     # ax[2].set_ylabel("log(exit time)")
