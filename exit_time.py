@@ -330,12 +330,12 @@ def main():
     config['batch_size_interval'] = 80 
     config['exit_trial_num'] = 100 
     config['interval_sample'] = 20 
-    config['optim'] = "SGD"
+    config['optim'] = "SGLD"
     #
     config['data'] = 'AVILA2'
-    # config['model'] = 'quad_func'
+    config['model'] = 'quad_func'
     # config['model'] = 'styblinski_tang_func'
-    config['model']   = 'MLP'
+    # config['model']   = 'MLP'
 
     #
     comm = MPI.COMM_WORLD
