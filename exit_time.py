@@ -150,6 +150,7 @@ def get_r_vs_exit_time(config, comm):
             exit_time_arr = np.append(exit_time_arr, np.mean(total))
             std_arr = np.append(std_arr, np.std(total))
     return (r_arr, exit_time_arr, std_arr)
+
 import matplotlib.pyplot as plt
 from scipy import stats
 def draw(sharpness_results, lr_results, batch_size_results, r_results):
@@ -298,12 +299,12 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
-    ax4[1].set_xlabel("batch size")
+    ax4[1].set_xlabel("r")
     ax4[1].set_ylabel("log(exit time)")
     ax4[1].errorbar(x_2, y_2, yerr=std*0, fmt='.k') 
     ax4[1].plot(x_2, m_2*x_2 + c_2)
     ax4[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax4[1].set_title(f'tau = exp(batch size)')
+    ax4[1].set_title(f'tau = exp(r)')
 
     plt.tight_layout()
     plt.show()
