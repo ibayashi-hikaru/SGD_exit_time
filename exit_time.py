@@ -320,7 +320,7 @@ def main():
     config['core'] = 0 
     config['seed'] = -1
     config['num_dim'] = 100
-    config['sharpness_min'] = 6
+    config['sharpness_min'] = 0
     config['sharpness_interval'] = 10 
     config['r_min'] = 0.1 
     config['r_interval'] = 0.05
