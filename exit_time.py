@@ -191,7 +191,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     # Learning rate
     # draw_subfig(ax3, *batch_size_results, "batch_size")
 
-    plt.suptitle(datetime.datetime.now().strftime('    %H:%M:%S'))
+    # plt.suptitle(datetime.datetime.now().strftime('    %H:%M:%S'))
     plt.tight_layout()
     plt.show()
     fig.savefig("results.png",dpi=300)
