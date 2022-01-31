@@ -122,44 +122,67 @@ def get_batch_size_vs_exit_time(config, comm):
 import matplotlib.pyplot as plt
 from scipy import stats
 def draw(sharpness_results, lr_results, batch_size_results):
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 2, figsize=(9, 12))
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 3, figsize=(12, 12))
     def draw_subfig(ax, x, y, std, h_param_name):
         coeff, _ = stats.pearsonr(x, y)
         log_coeff, _ = stats.pearsonr(x,np.log(y))
         A = np.vstack([x, np.ones(len(x))]).T
         m, c = np.linalg.lstsq(A, y, rcond=None)[0]
+        log_m, log_c = np.linalg.lstsq(A, np.log(y), rcond=None)[0]
         quad_m, quad_c = np.linalg.lstsq(A, y**2, rcond=None)[0]
-        # log_m, log_c = np.linalg.lstsq(A, np.log(y), rcond=None)[0]
-        # 
+        #
         ax[0].set_xlabel(h_param_name)
         ax[0].set_ylabel("1 / log(exit time)")
         ax[0].errorbar(x, y, yerr=std, fmt='.k') 
         ax[0].plot(x, m*x + c) 
         ax[0].set_ylim(bottom=0, top=None)
         ax[0].legend([f'Corr: {coeff:.3g}'])
-        #
-        ax[1].set_xlabel(h_param_name)
-        ax[1].set_ylabel("1 / (log(exit time))^2")
-        ax[1].errorbar(x, y**2, yerr=std, fmt='.k') 
-        ax[1].plot(x, quad_m*x + quad_c) 
-        ax[1].set_ylim(bottom=0, top=None)
-        ax[1].legend([f'Corr: {coeff:.3g}'])
-
         # Log
-        # ax[1].set_xlabel(h_param_name)
-        # ax[1].set_ylabel("log(exit time)")
-        # ax[1].errorbar(x, y, yerr=std, fmt='.k') 
-        # ax[1].plot(x, np.exp(log_m*x + log_c)) 
-        # ax[1].set_yscale("log") 
-        # ax[1].legend([f'Corr: {log_coeff:.3g}'])
+        ax[1].set_xlabel(h_param_name)
+        ax[1].set_ylabel("log(exit time)")
+        ax[1].errorbar(x, y, yerr=std, fmt='.k') 
+        ax[1].plot(x, np.exp(log_m*x + log_c)) 
+        ax[1].set_yscale("log") 
+        ax[1].legend([f'Corr: {log_coeff:.3g}'])
+        # Log quad
+        ax[2].set_xlabel(h_param_name)
+        ax[2].set_ylabel("log(exit time)")
+        ax[2].errorbar(x, y, yerr=std, fmt='.k') 
+        ax[2].plot(x, np.exp(log_m*x + log_c)) 
+        ax[2].set_yscale("log") 
+        ax[2].legend([f'Corr: {log_coeff:.3g}'])
     # Sharpness 
-    # draw_subfig(ax1, *sharpness_results, "sharpness")
-    (sharpness, exit_time, std) = sharpness_results
-    draw_subfig(ax1, sharpness, 1.0/np.log(exit_time), 0*std, "sharpness")
+    (x, y, std) = sharpness_results
+    coeff, _ = stats.pearsonr(x, y)
+    A = np.vstack([x, np.ones(len(x))]).T
+    m, c = np.linalg.lstsq(A, y, rcond=None)[0]
+    #
+    ax1[0].set_xlabel("sharpness")
+    ax1[0].set_ylabel("exit time")
+    ax1[0].errorbar(x, y, yerr=std, fmt='.k') 
+    ax1[0].plot(x, m*x + c) 
+    ax1[0].set_ylim(bottom=0, top=None)
+    ax1[0].legend([f'Corr: {coeff:.3g}'])
+    #
+    # log_coeff, _ = stats.pearsonr(np.exp(1/x), y)
+    # A = np.vstack([np.exp(1/x), np.ones(len(x))]).T
+    # log_m, log_c = np.linalg.lstsq(A, np.log(y), rcond=None)[0]
+    # # Log
+    # ax[1].set_xlabel(h_param_name)
+    # ax[1].set_ylabel("log(exit time)")
+    # ax[1].errorbar(x, y, yerr=std, fmt='.k') 
+    # ax[1].plot(x, np.exp(log_m*x + log_c)) 
+    # ax[1].set_yscale("log") 
+    # ax[1].legend([f'Corr: {log_coeff:.3g}'])
+    # # Log quad
+    # ax[2].set_xlabel(h_param_name)
+    # ax[2].set_ylabel("log(exit time)")
+    # ax[2].errorbar(x, y, yerr=std, fmt='.k') 
+    # ax[2].plot(x, np.exp(log_m*x + log_c)) 
+    # ax[2].set_yscale("log") 
+    # ax[2].legend([f'Corr: {log_coeff:.3g}'])
     # Learning rate
-    # draw_subfig(ax2, *lr_results, "lr")
-    (lr, exit_time, std) = lr_results
-    draw_subfig(ax2, lr, 1.0/np.log(exit_time), 0*std, "lr")
+    draw_subfig(ax2, *lr_results, "lr")
     # Learning rate
     # draw_subfig(ax3, *batch_size_results, "batch_size")
 
