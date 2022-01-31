@@ -171,7 +171,7 @@ def draw(sharpness_results, lr_results, batch_size_results):
     ax1[1].set_xlabel("exp(1/sharpness)")
     ax1[1].set_ylabel("exit time")
     ax1[1].errorbar(np.exp(1/x), y, yerr=std, fmt='.k') 
-    ax1[1].plot(np.exp(1/x), exp_m*x + exp_c) 
+    ax1[1].plot(np.exp(1/x), exp_m*np.exp(1/x) + exp_c) 
     ax1[1].set_yscale("log") 
     ax1[1].legend([f'Corr: {exp_coeff:.3g}'])
     # # Log quad
