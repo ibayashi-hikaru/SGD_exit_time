@@ -185,6 +185,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
         ax[2].legend([f'Corr: {log_coeff:.3g}'])
     # Sharpness 
     (x, y, std) = sharpness_results
+    y += 0.00001
     coeff, _ = stats.pearsonr(x, y)
     A = np.vstack([x, np.ones(len(x))]).T
     m, c = np.linalg.lstsq(A, y, rcond=None)[0]
@@ -197,7 +198,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax1[0].legend([f'Corr: {coeff:.3g}'])
     # Log
     x_2 = x
-    y_2 = np.log(y) + 0.00001
+    y_2 = np.log(y)
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
@@ -209,7 +210,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax1[1].set_title(f'tau = exp(sharpness)')
     #
     x_3 = x
-    y_3 = np.log(y)**2 + 0.00001
+    y_3 = np.log(y)**2
     coeff_3, _ = stats.pearsonr(x_3, y_3)
     A = np.vstack([x_3, np.ones(len(x_3))]).T
     m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
@@ -222,6 +223,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ###
     # Learning rate
     (x, y, std) = lr_results
+    y += 0.00001
     #
     coeff, _ = stats.pearsonr(x, y)
     A = np.vstack([x, np.ones(len(x))]).T
@@ -234,7 +236,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax2[0].legend([f'Corr: {coeff:.3g}'])
     # Log
     x_2 = x
-    y_2 = 1/(np.log(y) + 0.00001)
+    y_2 = 1/np.log(y)
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
@@ -246,7 +248,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax2[1].set_title(f'tau = exp(lr^(-1))')
     #
     x_3 = x
-    y_3 = 1/(np.log(y)**2 + 0.00001)
+    y_3 = 1/(np.log(y)**2)
     coeff_3, _ = stats.pearsonr(x_3, y_3)
     A = np.vstack([x_3, np.ones(len(x_3))]).T
     m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
@@ -259,6 +261,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     # draw_subfig(ax2, *lr_results, "lr")
     # Batch size
     (x, y, std) = batch_size_results
+    y += 0.00001
     #
     coeff, _ = stats.pearsonr(x, y)
     A = np.vstack([x, np.ones(len(x))]).T
@@ -283,6 +286,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax3[1].set_title(f'tau = exp(batch size)')
     # R
     (x, y, std) = r_results
+    y += 0.00001
     #
     coeff, _ = stats.pearsonr(x, y)
     A = np.vstack([x, np.ones(len(x))]).T
