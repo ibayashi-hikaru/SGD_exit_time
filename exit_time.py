@@ -322,7 +322,7 @@ def main():
     config['num_dim'] = 100
     config['sharpness_min'] = 3
     config['sharpness_interval'] = 2
-    config['r_min'] = 0.1 
+    config['r_min'] = 1 
     config['r_interval'] = 0.05
     config['lr_min'] = 0.001
     config['lr_interval'] = 0.001
@@ -333,9 +333,9 @@ def main():
     config['optim'] = "SGLD"
     #
     config['data'] = 'AVILA2'
-    config['model'] = 'quad_func'
+    # config['model'] = 'quad_func'
     # config['model'] = 'styblinski_tang_func'
-    # config['model']   = 'MLP'
+    config['model']   = 'MLP'
 
     #
     comm = MPI.COMM_WORLD
