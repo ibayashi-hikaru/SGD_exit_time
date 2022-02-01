@@ -4,7 +4,7 @@
     "num_dim": 100,
     "sharpness_min": 3,
     "sharpness_interval": 10,
-    "r_min": 0.001,
+    "r_min": 0.5,
     "r_interval": 4,
     "lr_min": 0.001,
     "lr_interval": 0.001,
