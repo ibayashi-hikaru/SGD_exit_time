@@ -154,7 +154,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results):
     fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 3, figsize=(12, 16))
-    plt.suptitle(config_fn)
+    plt.suptitle(config_fn, ha="left")
     def draw_subfig(ax, x, y, std, h_param_name):
         coeff, _ = stats.pearsonr(x, y)
         log_coeff, _ = stats.pearsonr(x,np.log(y))
