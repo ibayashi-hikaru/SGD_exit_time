@@ -320,8 +320,8 @@ def main():
     config['core'] = 0 
     config['seed'] = -1
     config['num_dim'] = 100
-    config['sharpness_min'] = 1 
-    config['sharpness_interval'] = 2 
+    config['sharpness_min'] = 0.001
+    config['sharpness_interval'] = 10 
     config['r_min'] = 1 
     config['r_interval'] = 2
     config['lr_min'] = 0.001
@@ -329,8 +329,8 @@ def main():
     config['batch_size_min'] = 10 
     config['batch_size_interval'] = 20 
     config['exit_trial_num'] = 100 
-    config['interval_sample'] = 10
-    config['optim'] = "SGD"
+    config['interval_sample'] = 100
+    config['optim'] = "SGLD"
     #
     config['data'] = 'AVILA2'
     # config['model'] = 'quad_func'
