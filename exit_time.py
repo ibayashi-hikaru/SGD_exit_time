@@ -152,8 +152,9 @@ def get_r_vs_exit_time(config, comm):
 
 import matplotlib.pyplot as plt
 from scipy import stats
-def draw(sharpness_results, lr_results, batch_size_results, r_results):
+def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results):
     fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 3, figsize=(12, 16))
+    plt.suptitle(config_fn)
     def draw_subfig(ax, x, y, std, h_param_name):
         coeff, _ = stats.pearsonr(x, y)
         log_coeff, _ = stats.pearsonr(x,np.log(y))
@@ -317,7 +318,8 @@ import optuna
 from mpi4py import MPI
 import json
 def main():
-    with open('MLP_SGD.json') as json_file:
+    config_fn = 'MLP_SGD.json' 
+    with open(config_fn) as json_file:
         config = json.load(json_file)
     #
     comm = MPI.COMM_WORLD
@@ -373,7 +375,7 @@ def main():
     if rank == 0:
         report("Drawing Started")
         print(end="", flush=True)
-    if rank == 0: draw(sharpness_results, lr_results, batch_size_results, r_results)
+    if rank == 0: draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results)
     if rank == 0:
         report("Done")
         print(end="", flush=True)
