@@ -323,10 +323,10 @@ def main():
     config['sharpness_min'] = 1 
     config['sharpness_interval'] = 2 
     config['r_min'] = 1 
-    config['r_interval'] = 1
+    config['r_interval'] = 2
     config['lr_min'] = 0.001
     config['lr_interval'] = 0.001
-    config['batch_size_min'] = 1 
+    config['batch_size_min'] = 10 
     config['batch_size_interval'] = 20 
     config['exit_trial_num'] = 100 
     config['interval_sample'] = 10
