@@ -197,7 +197,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax1[0].legend([f'Corr: {coeff:.3g}'])
     # Log
     x_2 = x
-    y_2 = np.log(y)
+    y_2 = np.log(y) + 0.00001
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
@@ -209,7 +209,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax1[1].set_title(f'tau = exp(sharpness)')
     #
     x_3 = x
-    y_3 = np.log(y)**2
+    y_3 = np.log(y)**2 + 0.00001
     coeff_3, _ = stats.pearsonr(x_3, y_3)
     A = np.vstack([x_3, np.ones(len(x_3))]).T
     m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
@@ -234,7 +234,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax2[0].legend([f'Corr: {coeff:.3g}'])
     # Log
     x_2 = x
-    y_2 = 1/np.log(y)
+    y_2 = 1/(np.log(y) + 0.00001)
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
@@ -246,7 +246,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax2[1].set_title(f'tau = exp(lr^(-1))')
     #
     x_3 = x
-    y_3 = 1/(np.log(y)**2)
+    y_3 = 1/(np.log(y)**2 + 0.00001)
     coeff_3, _ = stats.pearsonr(x_3, y_3)
     A = np.vstack([x_3, np.ones(len(x_3))]).T
     m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
@@ -318,7 +318,7 @@ import optuna
 from mpi4py import MPI
 import json
 def main():
-    config_fn = 'MLP_SGD.json' 
+    config_fn = 'MLP_SGLD.json' 
     with open(config_fn) as json_file:
         config = json.load(json_file)
     #
