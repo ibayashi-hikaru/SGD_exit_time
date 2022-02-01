@@ -317,7 +317,7 @@ import optuna
 from mpi4py import MPI
 import json
 def main():
-    with open('MLP_SGLD.json') as json_file:
+    with open('MLP_SGD.json') as json_file:
         config = json.load(json_file)
     #
     comm = MPI.COMM_WORLD
