@@ -370,7 +370,13 @@ def main():
         report("r Analysis Started")
         print(end="", flush=True)
     r_results = get_r_vs_exit_time(config, comm)
+    if rank == 0:
+        report("Drawing Started")
+        print(end="", flush=True)
     if rank == 0: draw(sharpness_results, lr_results, batch_size_results, r_results)
+    if rank == 0:
+        report("Done")
+        print(end="", flush=True)
     
 
 if __name__=='__main__':
