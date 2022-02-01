@@ -315,27 +315,33 @@ import numpy as np
 import sys
 import optuna
 from mpi4py import MPI
+import json
 def main():
-    config = {}
-    config['core'] = 0 
-    config['seed'] = -1
-    config['num_dim'] = 100
-    config['sharpness_min'] = 0.001
-    config['sharpness_interval'] = 10 
-    config['r_min'] = 1 
-    config['r_interval'] = 2
-    config['lr_min'] = 0.001
-    config['lr_interval'] = 0.001
-    config['batch_size_min'] = 10 
-    config['batch_size_interval'] = 20 
-    config['exit_trial_num'] = 100 
-    config['interval_sample'] = 100
-    config['optim'] = "SGLD"
-    #
-    config['data'] = 'AVILA2'
-    # config['model'] = 'quad_func'
-    # config['model'] = 'styblinski_tang_func'
-    config['model']   = 'MLP'
+    # config = {}
+    # config['core'] = 0 
+    # config['seed'] = -1
+    # config['num_dim'] = 100
+    # config['sharpness_min'] = 0.001
+    # config['sharpness_interval'] = 10 
+    # config['r_min'] = 1 
+    # config['r_interval'] = 2
+    # config['lr_min'] = 0.001
+    # config['lr_interval'] = 0.001
+    # config['batch_size_min'] = 10 
+    # config['batch_size_interval'] = 20 
+    # config['exit_trial_num'] = 100 
+    # config['interval_sample'] = 100
+    # config['optim'] = "SGLD"
+    # #
+    # config['data'] = 'AVILA2'
+    # # config['model'] = 'quad_func'
+    # # config['model'] = 'styblinski_tang_func'
+    # config['model']   = 'MLP'
+    # json_string = json.dumps(config)
+    # with open('MLP_config.json', 'w') as outfile:
+    #     json.dump(config, outfile, indent=4)
+    with open('MLP_config.json') as json_file:
+        config = json.load(json_file)
 
     #
     comm = MPI.COMM_WORLD
