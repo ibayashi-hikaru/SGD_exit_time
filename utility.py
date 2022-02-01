@@ -59,10 +59,10 @@ def set_seed(config):
 import torch
 def set_device(config):
     if 0<=config["core"]<torch.cuda.device_count() and torch.cuda.is_available():
-        report(f'use GPU; core:{config["core"]}')
+        # report(f'use GPU; core:{config["core"]}')
         torch.cuda.set_device(config["core"])
     else:
-        report('use CPU in this trial')
+        # report('use CPU in this trial')
         config["core"] = -1
 
 import AVILA2_model_zoo
