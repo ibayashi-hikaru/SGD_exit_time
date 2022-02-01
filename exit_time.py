@@ -330,7 +330,7 @@ def main():
     config['batch_size_interval'] = 80 
     config['exit_trial_num'] = 100 
     config['interval_sample'] = 20
-    config['optim'] = "SGLD"
+    config['optim'] = "SGD"
     #
     config['data'] = 'AVILA2'
     # config['model'] = 'quad_func'
