@@ -318,7 +318,7 @@ import optuna
 from mpi4py import MPI
 import json
 def main():
-    config_fn = 'MLP_SGLD.json' 
+    config_fn = 'quad.json' 
     with open(config_fn) as json_file:
         config = json.load(json_file)
     #
