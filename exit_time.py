@@ -323,7 +323,7 @@ def main():
     config['sharpness_min'] = 1 
     config['sharpness_interval'] = 2 
     config['r_min'] = 1 
-    config['r_interval'] = 0.05
+    config['r_interval'] = 1
     config['lr_min'] = 0.001
     config['lr_interval'] = 0.001
     config['batch_size_min'] = 1 
