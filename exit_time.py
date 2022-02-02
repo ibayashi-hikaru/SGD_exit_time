@@ -155,34 +155,6 @@ from scipy import stats
 def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results):
     fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 3, figsize=(12, 16))
     plt.suptitle(config_fn, x=0.05, y=1)
-    def draw_subfig(ax, x, y, std, h_param_name):
-        coeff, _ = stats.pearsonr(x, y)
-        log_coeff, _ = stats.pearsonr(x,np.log(y))
-        A = np.vstack([x, np.ones(len(x))]).T
-        m, c = np.linalg.lstsq(A, y, rcond=None)[0]
-        log_m, log_c = np.linalg.lstsq(A, np.log(y), rcond=None)[0]
-        quad_m, quad_c = np.linalg.lstsq(A, y**2, rcond=None)[0]
-        #
-        ax[0].set_xlabel(h_param_name)
-        ax[0].set_ylabel("1 / log(exit time)")
-        ax[0].errorbar(x, y, yerr=std, fmt='.k') 
-        ax[0].plot(x, m*x + c) 
-        ax[0].set_ylim(bottom=0, top=None)
-        ax[0].legend([f'Corr: {coeff:.3g}'])
-        # Log
-        ax[1].set_xlabel(h_param_name)
-        ax[1].set_ylabel("log(exit time)")
-        ax[1].errorbar(x, y, yerr=std, fmt='.k') 
-        ax[1].plot(x, np.exp(log_m*x + log_c)) 
-        ax[1].set_yscale("log") 
-        ax[1].legend([f'Corr: {log_coeff:.3g}'])
-        # Log quad
-        ax[2].set_xlabel(h_param_name)
-        ax[2].set_ylabel("log(exit time)")
-        ax[2].errorbar(x, y, yerr=std, fmt='.k') 
-        ax[2].plot(x, np.exp(log_m*x + log_c)) 
-        ax[2].set_yscale("log") 
-        ax[2].legend([f'Corr: {log_coeff:.3g}'])
     # Sharpness 
     (x, y, std) = sharpness_results
     y += 0.00001
@@ -309,6 +281,18 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax4[1].plot(x_2, m_2*x_2 + c_2)
     ax4[1].legend([f'Corr: {coeff_2:.3g}'])
     ax4[1].set_title(f'tau = exp(r)')
+    # Log
+    x_3 = x
+    y_3 = np.sqrt(np.log(y))
+    coeff_3, _ = stats.pearsonr(x_3, y_3)
+    A = np.vstack([x_3, np.ones(len(x))]).T
+    m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
+    ax4[2].set_xlabel("r")
+    ax4[2].set_ylabel("sqrt(log(exit time))")
+    ax4[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
+    ax4[2].plot(x_3, m_3*x_3 + c_3)
+    ax4[2].legend([f'Corr: {coeff_3:.3g}'])
+    ax4[2].set_title(f'tau = exp(r^2)')
 
     plt.tight_layout()
     plt.show()
@@ -322,7 +306,7 @@ import optuna
 from mpi4py import MPI
 import json
 def main():
-    config_fn = 'MLP_SGLD.json' 
+    config_fn = 'MLP_SGD.json' 
     with open(config_fn) as json_file:
         config = json.load(json_file)
     #
