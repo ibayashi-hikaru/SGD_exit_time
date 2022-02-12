@@ -46,7 +46,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax2[1].plot(x_2, m_2*x_2 + c_2)
     # ax2[1].set_ylim(bottom=0, top=None)
     ax2[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax2[2].set_title('$\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
+    ax2[1].set_title('$\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
     #
     # Batch size
     (x, y, std, log_std, _) = batch_size_results
