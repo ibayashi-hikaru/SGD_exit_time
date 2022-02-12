@@ -20,18 +20,18 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax1[0].legend([f'Corr: {coeff:.3g}'])
     # Log
     #
-    x_3 = x
-    y_3 = np.log(y)**2
-    coeff_3, _ = stats.pearsonr(x_3, y_3)
-    A = np.vstack([x_3, np.ones(len(x_3))]).T
-    m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
-    ax1[2].set_xlabel("sharpness")
-    ax1[2].set_ylabel("log(exit time)^2")
-    ax1[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
-    ax1[2].plot(x_3, m_3*x_3 + c_3)
-    # ax1[2].set_ylim(bottom=0, top=None)
-    ax1[2].legend([f'Corr: {coeff_3:.3g}'])
-    ax1[2].set_title('$\mathbf{E}[\\tau]\sim \exp(sharpness^{-1/2})$')
+    x_2 = x
+    y_2 = np.log(y)
+    coeff_2, _ = stats.pearsonr(x_2, y_2)
+    A = np.vstack([x_2, np.ones(len(x_2))]).T
+    m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
+    ax1[1].set_xlabel("sharpness")
+    ax1[1].set_ylabel("log(exit time)")
+    ax1[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
+    ax1[1].plot(x_2, m_2*x_2 + c_2)
+    # ax1[1].set_ylim(bottom=0, top=None)
+    ax1[1].legend([f'Corr: {coeff_2:.3g}'])
+    ax1[1].set_title('$\mathbf{E}[\\tau]\sim \exp(sharpness^{-1/2})$')
     ###
     # Learning rate
     (x, y, std, log_std, _) = lr_results
