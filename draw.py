@@ -124,31 +124,31 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     # ax4[0].set_ylim(bottom=0, top=None)
     ax4[0].legend([f'Corr: {coeff:.3g}'])
     # Log
-    x_2 = x
+    x_2 = x**2
     y_2 = np.log(y)
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
-    ax4[1].set_xlabel("r")
+    ax4[1].set_xlabel("$\Delta L$")
     ax4[1].set_ylabel("log(exit time)")
     ax4[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax4[1].plot(x_2, m_2*x_2 + c_2)
     # ax4[1].set_ylim(bottom=0, top=None)
     ax4[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax4[1].set_title(f'tau = exp(r)')
+    ax4[1].set_title(f'$\\tau = \exp(\Delta L)$')
     # Log
-    x_3 = x
-    y_3 = np.sqrt(np.log(y))
-    coeff_3, _ = stats.pearsonr(x_3, y_3)
-    A = np.vstack([x_3, np.ones(len(x))]).T
-    m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
-    ax4[2].set_xlabel("r")
-    ax4[2].set_ylabel("sqrt(log(exit time))")
-    ax4[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
-    ax4[2].plot(x_3, m_3*x_3 + c_3)
-    # ax4[2].set_ylim(bottom=0, top=None)
-    ax4[2].legend([f'Corr: {coeff_3:.3g}'])
-    ax4[2].set_title(f'tau = exp(r^2)')
+    # x_3 = x
+    # y_3 = np.sqrt(np.log(y))
+    # coeff_3, _ = stats.pearsonr(x_3, y_3)
+    # A = np.vstack([x_3, np.ones(len(x))]).T
+    # m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
+    # ax4[2].set_xlabel("r")
+    # ax4[2].set_ylabel("sqrt(log(exit time))")
+    # ax4[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
+    # ax4[2].plot(x_3, m_3*x_3 + c_3)
+    # # ax4[2].set_ylim(bottom=0, top=None)
+    # ax4[2].legend([f'Corr: {coeff_3:.3g}'])
+    # ax4[2].set_title(f'tau = exp(r^2)')
 
     plt.tight_layout()
     plt.show()
