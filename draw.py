@@ -18,7 +18,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     # #
     # ax1[0].set_xlabel("sharpness")
     # ax1[0].set_ylabel("exit time")
-    # ax1[0].errorbar(x, y, yerr=std, fmt='o', capsize=2) 
+    # ax1[0].errorbar(x, y, yerr=std, fmt='.', capsize=2) 
     # ax1[0].plot(x, m*x + c) 
     # # ax1[0].set_ylim(bottom=0, top=None)
     # ax1[0].legend([f'Corr: {coeff:.3g}'])
@@ -31,7 +31,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax1[1].set_xlabel("$\lambda$:sharpness")
     ax1[1].set_ylabel("$\left(\log(\mathbf{E}[\\tau])\\right)^2$")
-    ax1[1].errorbar(x_2, y_2, yerr=log_std+np.sqrt(2)*np.sqrt(y_2)*log_std, fmt='o', capsize=2) 
+    ax1[1].errorbar(x_2, y_2, yerr=log_std+np.sqrt(2)*np.sqrt(y_2)*log_std, fmt='.', capsize=2) 
     ax1[1].plot(x_2, m_2*x_2 + c_2)
     ax1[1].legend([f'Corr: {coeff_2:.3g}'])
     ax1[1].set_title('$Theorem 1:\mathbf{E}[\\tau]\sim \exp(\lambda^{-1/2})$')
@@ -45,7 +45,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax2[1].set_xlabel("$\eta$: Learning rate")
     ax2[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
-    ax2[1].errorbar(x_2, y_2, yerr=log_std, fmt='o', capsize=2) 
+    ax2[1].errorbar(x_2, y_2, yerr=log_std, fmt='.', capsize=2) 
     ax2[1].plot(x_2, m_2*x_2 + c_2)
     # ax2[1].set_ylim(bottom=0, top=None)
     ax2[1].legend([f'Corr: {coeff_2:.3g}'])
@@ -62,7 +62,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax3[1].set_xlabel("$B$: Batch size")
     ax3[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
-    ax3[1].errorbar(x_2, y_2, yerr=log_std, fmt='o', capsize=2) 
+    ax3[1].errorbar(x_2, y_2, yerr=log_std, fmt='.', capsize=2) 
     ax3[1].plot(x_2, m_2*x_2 + c_2)
     # ax3[1].set_ylim(bottom=0, top=None)
     ax3[1].legend([f'Corr: {coeff_2:.3g}'])
@@ -78,7 +78,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax4[1].set_xlabel("$\Delta L$: depth of minimum")
     ax4[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
-    ax4[1].errorbar(x_2, y_2, yerr=log_std, fmt='o', capsize=2) 
+    ax4[1].errorbar(x_2, y_2, yerr=log_std, fmt='.', capsize=2) 
     ax4[1].plot(x_2, m_2*x_2 + c_2)
     # ax4[1].set_ylim(bottom=0, top=None)
     ax4[1].legend([f'Corr: {coeff_2:.3g}'])
@@ -91,7 +91,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     # m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
     # ax4[2].set_xlabel("r")
     # ax4[2].set_ylabel("sqrt(log(exit time))")
-    # ax4[2].errorbar(x_3, y_3, yerr=std*0, fmt='o', capsize=2) 
+    # ax4[2].errorbar(x_3, y_3, yerr=std*0, fmt='.', capsize=2) 
     # ax4[2].plot(x_3, m_3*x_3 + c_3)
     # # ax4[2].set_ylim(bottom=0, top=None)
     # ax4[2].legend([f'Corr: {coeff_3:.3g}'])
