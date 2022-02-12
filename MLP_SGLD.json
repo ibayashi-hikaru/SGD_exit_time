@@ -2,7 +2,7 @@
     "core": 0,
     "seed": -1,
     "num_dim": 10,
-    "sharpness_min": 7,
+    "sharpness_min": 1,
     "sharpness_interval": 8,
     "r_min": 1,
     "r_interval": 1.1,
