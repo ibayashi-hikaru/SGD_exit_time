@@ -41,57 +41,71 @@ def get_lr_vs_exit_time(config, comm):
                           config['interval_sample'])
     comm_size = comm.Get_size()
     rank = comm.Get_rank()
-    data = np.zeros(config['exit_trial_num'])
     exit_time_arr = np.zeros((0,1))
+    log_exit_time_arr = np.zeros((0,1))
     std_arr = np.zeros((0,1))
+    log_std_arr = np.zeros((0,1))
+    #
+    stored_exit_time = np.zeros(config['exit_trial_num'])
     for lr in lr_arr:
         sample_id = rank
         while sample_id < config['exit_trial_num']:
-            data[sample_id] = get_exit_time(config,
-                                            lr,
-                                            config['sharpness_min'],
-                                            config['batch_size_min'],
-                                            config['r_min'])
+            stored_exit_time[sample_id] = get_exit_time(config,
+                                                        lr,
+                                                        config['sharpness_min'],
+                                                        config['batch_size_min'],
+                                                        config['r_min'])
             sample_id += comm_size
         comm.Barrier()
         if rank==0:
-            total = np.zeros_like(data) 
+            reduced_exit_time = np.zeros_like(stored_exit_time) 
         else:
-            total = None 
-        comm.Reduce( [data, MPI.DOUBLE], [total, MPI.DOUBLE], op = MPI.SUM, root = 0)
+            reduced_exit_time = None 
+        comm.Reduce( [stored_exit_time, MPI.DOUBLE],
+                     [reduced_exit_time, MPI.DOUBLE],
+                     op = MPI.SUM, root = 0)
         if rank==0:
-            exit_time_arr = np.append(exit_time_arr, np.mean(total))
-            std_arr = np.append(std_arr, np.std(total))
-    return (lr_arr, exit_time_arr, std_arr)
+            exit_time_arr = np.append(exit_time_arr, np.mean(reduced_exit_time))
+            std_arr = np.append(std_arr, np.std(reduced_exit_time))
+            log_exit_time_arr = np.append(log_exit_time_arr, np.mean(np.std(np.log(reduced_exit_time))))
+            log_std_arr = np.append(log_std_arr, np.std(np.log(reduced_exit_time)))
+    return (lr_arr, exit_time_arr, std_arr, log_exit_time_arr, log_std_arr)
 
 def get_sharpness_vs_exit_time(config, comm):
-    comm_size = comm.Get_size()
-    rank = comm.Get_rank()
     sharpness_arr = np.linspace(config['sharpness_min'], 
                                 config['sharpness_min']+config['sharpness_interval'],
                                 config['interval_sample'])
-    data = np.zeros(config['exit_trial_num'])
+    comm_size = comm.Get_size()
+    rank = comm.Get_rank()
     exit_time_arr = np.zeros((0,1))
+    log_exit_time_arr = np.zeros((0,1))
     std_arr = np.zeros((0,1))
+    log_std_arr = np.zeros((0,1))
+    #
+    stored_exit_time = np.zeros(config['exit_trial_num'])
     for sharpness in sharpness_arr:
         sample_id = rank
         while sample_id < config['exit_trial_num']:
-            data[sample_id] = get_exit_time(config,
-                                            config['lr_min'],
-                                            sharpness,
-                                            config['batch_size_min'],
-                                            config['r_min'])
+            stored_exit_time[sample_id] = get_exit_time(config,
+                                                        config['lr_min'],
+                                                        sharpness,
+                                                        config['batch_size_min'],
+                                                        config['r_min'])
             sample_id += comm_size
         comm.Barrier()
         if rank==0:
-            total = np.zeros_like(data) 
+            reduced_exit_time = np.zeros_like(stored_exit_time) 
         else:
-            total = None 
-        comm.Reduce( [data, MPI.DOUBLE], [total, MPI.DOUBLE], op = MPI.SUM, root = 0)
+            reduced_exit_time = None 
+        comm.Reduce( [stored_exit_time, MPI.DOUBLE],
+                     [reduced_exit_time, MPI.DOUBLE],
+                     op = MPI.SUM, root = 0)
         if rank==0:
-            exit_time_arr = np.append(exit_time_arr, np.mean(total))
-            std_arr = np.append(std_arr, np.std(total))
-    return (sharpness_arr, exit_time_arr, std_arr)
+            exit_time_arr = np.append(exit_time_arr, np.mean(reduced_exit_time))
+            std_arr = np.append(std_arr, np.std(reduced_exit_time))
+            log_exit_time_arr = np.append(log_exit_time_arr, np.mean(np.std(np.log(reduced_exit_time))))
+            log_std_arr = np.append(log_std_arr, np.std(np.log(reduced_exit_time)))
+    return (sharpness_arr, exit_time_arr, std_arr, log_exit_time_arr, log_std_arr)
 
 def get_batch_size_vs_exit_time(config, comm):
     comm_size = comm.Get_size()
@@ -99,56 +113,71 @@ def get_batch_size_vs_exit_time(config, comm):
     bs_arr = np.linspace(config['batch_size_min'], 
                          config['batch_size_min'] + config['batch_size_interval'] - 1,
                          config['interval_sample']).astype(int)
-    data = np.zeros(config['exit_trial_num'])
     exit_time_arr = np.zeros((0,1))
+    log_exit_time_arr = np.zeros((0,1))
     std_arr = np.zeros((0,1))
+    log_std_arr = np.zeros((0,1))
+    #
+    stored_exit_time = np.zeros(config['exit_trial_num'])
     for bs in bs_arr:
         sample_id = rank
         while sample_id < config['exit_trial_num']:
-            data[sample_id] = get_exit_time(config,
-                                            config['lr_min'],
-                                            config["sharpness_min"],
-                                            bs,
-                                            config['r_min'])
+            stored_exit_time[sample_id] = get_exit_time(config,
+                                                        config['lr_min'],
+                                                        config["sharpness_min"],
+                                                        bs,
+                                                        config['r_min'])
             sample_id += comm_size
         comm.Barrier()
         if rank==0:
-            total = np.zeros_like(data) 
+            reduced_exit_time = np.zeros_like(stored_exit_time) 
         else:
-            total = None 
-        comm.Reduce( [data, MPI.DOUBLE], [total, MPI.DOUBLE], op = MPI.SUM, root = 0)
+            reduced_exit_time = None 
+        comm.Reduce( [stored_exit_time, MPI.DOUBLE],
+                     [reduced_exit_time, MPI.DOUBLE],
+                     op = MPI.SUM, root = 0)
         if rank==0:
-            exit_time_arr = np.append(exit_time_arr, np.mean(total))
-            std_arr = np.append(std_arr, np.std(total))
-    return (bs_arr, exit_time_arr, std_arr)
+            exit_time_arr = np.append(exit_time_arr, np.mean(reduced_exit_time))
+            std_arr = np.append(std_arr, np.std(reduced_exit_time))
+            log_exit_time_arr = np.append(log_exit_time_arr, np.mean(np.std(np.log(reduced_exit_time))))
+            log_std_arr = np.append(log_std_arr, np.std(np.log(reduced_exit_time)))
+    return (bs_arr, exit_time_arr, std_arr, log_exit_time_arr, log_std_arr)
+
 def get_r_vs_exit_time(config, comm):
     comm_size = comm.Get_size()
     rank = comm.Get_rank()
     r_arr = np.linspace(config['r_min'], 
                          config['r_min'] + config['r_interval'],
                          config['interval_sample'])
-    data = np.zeros(config['exit_trial_num'])
     exit_time_arr = np.zeros((0,1))
+    log_exit_time_arr = np.zeros((0,1))
     std_arr = np.zeros((0,1))
+    log_std_arr = np.zeros((0,1))
+    #
+    stored_exit_time = np.zeros(config['exit_trial_num'])
     for r in r_arr:
         sample_id = rank
         while sample_id < config['exit_trial_num']:
-            data[sample_id] = get_exit_time(config,
-                                            config['lr_min'],
-                                            config["sharpness_min"],
-                                            config["batch_size_min"],
-                                            r)
+            stored_exit_time[sample_id] = get_exit_time(config,
+                                                        config['lr_min'],
+                                                        config["sharpness_min"],
+                                                        config["batch_size_min"],
+                                                        r)
             sample_id += comm_size
         comm.Barrier()
         if rank==0:
-            total = np.zeros_like(data) 
+            reduced_exit_time = np.zeros_like(stored_exit_time) 
         else:
-            total = None 
-        comm.Reduce( [data, MPI.DOUBLE], [total, MPI.DOUBLE], op = MPI.SUM, root = 0)
+            reduced_exit_time = None 
+        comm.Reduce( [stored_exit_time, MPI.DOUBLE],
+                     [reduced_exit_time, MPI.DOUBLE],
+                     op = MPI.SUM, root = 0)
         if rank==0:
-            exit_time_arr = np.append(exit_time_arr, np.mean(total))
-            std_arr = np.append(std_arr, np.std(total))
-    return (r_arr, exit_time_arr, std_arr)
+            exit_time_arr = np.append(exit_time_arr, np.mean(reduced_exit_time))
+            std_arr = np.append(std_arr, np.std(reduced_exit_time))
+            log_exit_time_arr = np.append(log_exit_time_arr, np.mean(np.std(np.log(reduced_exit_time))))
+            log_std_arr = np.append(log_std_arr, np.std(np.log(reduced_exit_time)))
+    return (r_arr, exit_time_arr, std_arr, log_exit_time_arr, log_std_arr)
 
 import matplotlib.pyplot as plt
 from scipy import stats
@@ -156,7 +185,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 3, figsize=(12, 16))
     plt.suptitle(config_fn, x=0.05, y=1)
     # Sharpness 
-    (x, y, std) = sharpness_results
+    (x, y, std, log_std, _) = sharpness_results
     y += 0.00001
     coeff, _ = stats.pearsonr(x, y)
     A = np.vstack([x, np.ones(len(x))]).T
@@ -176,7 +205,9 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax1[1].set_xlabel("sharpness")
     ax1[1].set_ylabel("log(exit time)")
-    ax1[1].errorbar(x_2, y_2, yerr=np.log(std), fmt='.k') 
+    print(y_2.shape)
+    print(log_std.shape)
+    ax1[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax1[1].plot(x_2, m_2*x_2 + c_2)
     ax1[1].legend([f'Corr: {coeff_2:.3g}'])
     ax1[1].set_title(f'tau = exp(sharpness)')
@@ -188,13 +219,13 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
     ax1[2].set_xlabel("sharpness")
     ax1[2].set_ylabel("log(exit time)^2")
-    ax1[2].errorbar(x_3, y_3, yerr=np.log(std), fmt='.k') 
+    ax1[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
     ax1[2].plot(x_3, m_3*x_3 + c_3)
     ax1[2].legend([f'Corr: {coeff_3:.3g}'])
     ax1[2].set_title(f'tau = exp(sharpness^(1/2))')
     ###
     # Learning rate
-    (x, y, std) = lr_results
+    (x, y, std, log_std, _) = lr_results
     y += 0.00001
     #
     coeff, _ = stats.pearsonr(x, y)
@@ -208,31 +239,30 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax2[0].legend([f'Corr: {coeff:.3g}'])
     # Log
     x_2 = x
-    y_2 = 1/np.log(y)
+    y_2 = np.log(y)
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax2[1].set_xlabel("lr")
-    ax2[1].set_ylabel("1/log(exit time)")
-    ax2[1].errorbar(x_2, y_2, yerr=std*0, fmt='.k') 
+    ax2[1].set_ylabel("log(exit time)")
+    ax2[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax2[1].plot(x_2, m_2*x_2 + c_2)
     ax2[1].legend([f'Corr: {coeff_2:.3g}'])
     ax2[1].set_title(f'tau = exp(lr^(-1))')
     #
     x_3 = x
-    y_3 = 1/(np.log(y)**2)
+    y_3 = np.log(y)**2
     coeff_3, _ = stats.pearsonr(x_3, y_3)
     A = np.vstack([x_3, np.ones(len(x_3))]).T
     m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
     ax2[2].set_xlabel("lr")
-    ax2[2].set_ylabel("1/log(exit time)^2")
+    ax2[2].set_ylabel("log(exit time)^2")
     ax2[2].errorbar(x_3, y_3, yerr=std, fmt='.k') 
     ax2[2].plot(x_3, m_3*x_3 + c_3)
     ax2[2].legend([f'Corr: {coeff_3:.3g}'])
     ax2[2].set_title(f'tau = exp(lr^(-1/2))')
-    # draw_subfig(ax2, *lr_results, "lr")
     # Batch size
-    (x, y, std) = batch_size_results
+    (x, y, std, log_std, _) = batch_size_results
     y += 0.00001
     #
     coeff, _ = stats.pearsonr(x, y)
@@ -252,12 +282,12 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax3[1].set_xlabel("batch size")
     ax3[1].set_ylabel("log(exit time)")
-    ax3[1].errorbar(x_2, y_2, yerr=np.log(std), fmt='.k') 
+    ax3[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax3[1].plot(x_2, m_2*x_2 + c_2)
     ax3[1].legend([f'Corr: {coeff_2:.3g}'])
     ax3[1].set_title(f'tau = exp(batch size)')
     # R
-    (x, y, std) = r_results
+    (x, y, std, log_std, _) = r_results
     y += 0.00001
     #
     coeff, _ = stats.pearsonr(x, y)
@@ -277,7 +307,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax4[1].set_xlabel("r")
     ax4[1].set_ylabel("log(exit time)")
-    ax4[1].errorbar(x_2, y_2, yerr=np.log(std), fmt='.k') 
+    ax4[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax4[1].plot(x_2, m_2*x_2 + c_2)
     ax4[1].legend([f'Corr: {coeff_2:.3g}'])
     ax4[1].set_title(f'tau = exp(r)')
@@ -289,7 +319,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
     ax4[2].set_xlabel("r")
     ax4[2].set_ylabel("sqrt(log(exit time))")
-    ax4[2].errorbar(x_3, y_3, yerr=np.sqrt(np.log(std)), fmt='.k') 
+    ax4[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
     ax4[2].plot(x_3, m_3*x_3 + c_3)
     ax4[2].legend([f'Corr: {coeff_3:.3g}'])
     ax4[2].set_title(f'tau = exp(r^2)')
@@ -344,7 +374,7 @@ def main():
     if rank == 0:
         report("Sharpness Analysis Started")
         print( end="", flush=True)
-    sharpness_results  = get_sharpness_vs_exit_time(config, comm)
+    sharpness_results = get_sharpness_vs_exit_time(config, comm)
     # Learning ratae
     if rank == 0:
         report("LR Analysis Started")
