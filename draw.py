@@ -26,7 +26,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     A = np.vstack([x_2, np.ones(len(x_2))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax1[1].set_xlabel("$\lambda$")
-    ax1[1].set_ylabel("$\log(\\tau)$")
+    ax1[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
     ax1[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax1[1].plot(x_2, m_2*x_2 + c_2)
     ax1[1].legend([f'Corr: {coeff_2:.3g}'])
@@ -40,7 +40,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax2[1].set_xlabel("$\eta$")
-    ax2[1].set_ylabel("$\log(\\tau)$")
+    ax2[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
     ax2[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax2[1].plot(x_2, m_2*x_2 + c_2)
     # ax2[1].set_ylim(bottom=0, top=None)
@@ -66,7 +66,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax3[1].set_xlabel("$B$")
-    ax3[1].set_ylabel("$\log(\\tau)$")
+    ax3[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
     ax3[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax3[1].plot(x_2, m_2*x_2 + c_2)
     # ax3[1].set_ylim(bottom=0, top=None)
@@ -74,17 +74,16 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax3[1].set_title('$\mathbf{E}[\\tau] \sim = \exp(B)$')
     # R
     (x, y, std, log_std, _) = r_results
-    y += 0.00001
     #
-    coeff, _ = stats.pearsonr(x, y)
-    A = np.vstack([x, np.ones(len(x))]).T
-    m, c = np.linalg.lstsq(A, y, rcond=None)[0]
-    ax4[0].set_xlabel("r")
-    ax4[0].set_ylabel("exit time")
-    ax4[0].errorbar(x, y, yerr=std, fmt='.k') 
-    ax4[0].plot(x, m*x + c) 
-    # ax4[0].set_ylim(bottom=0, top=None)
-    ax4[0].legend([f'Corr: {coeff:.3g}'])
+    # coeff, _ = stats.pearsonr(x, y)
+    # A = np.vstack([x, np.ones(len(x))]).T
+    # m, c = np.linalg.lstsq(A, y, rcond=None)[0]
+    # ax4[0].set_xlabel("r")
+    # ax4[0].set_ylabel("exit time")
+    # ax4[0].errorbar(x, y, yerr=std, fmt='.k') 
+    # ax4[0].plot(x, m*x + c) 
+    # # ax4[0].set_ylim(bottom=0, top=None)
+    # ax4[0].legend([f'Corr: {coeff:.3g}'])
     # Log
     x_2 = x**2
     y_2 = np.log(y)
@@ -92,7 +91,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax4[1].set_xlabel("$\Delta L$")
-    ax4[1].set_ylabel("$\log(\\tau)$")
+    ax4[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
     ax4[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax4[1].plot(x_2, m_2*x_2 + c_2)
     # ax4[1].set_ylim(bottom=0, top=None)
