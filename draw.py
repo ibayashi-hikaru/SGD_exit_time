@@ -1,8 +1,12 @@
 
 import matplotlib.pyplot as plt
+import matplotlib
 from scipy import stats
 import numpy as np
 def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results):
+    font = {'size'   : 15}
+    matplotlib.rc('font', **font)
+
     fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 3, figsize=(12, 16))
     plt.suptitle(config_fn, x=0.05, y=1)
     # Sharpness 
