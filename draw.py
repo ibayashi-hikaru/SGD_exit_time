@@ -59,12 +59,12 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     coeff_1, _ = stats.pearsonr(x_1, y_1)
     A = np.vstack([x_1, np.ones(len(x))]).T
     m_1, c_1 = np.linalg.lstsq(A, y_1, rcond=None)[0]
-    ax1[1].set_xlabel("$\Delta L$: depth of minimum")
-    ax1[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
-    ax1[1].errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
-    ax1[1].plot(x_1, m_1*x_1 + c_1)
-    ax1[1].legend([f'Corr: {coeff_1:.3g}'])
-    ax1[1].set_title('$\mathbf{E}[\\tau] \sim \exp(\Delta L)$')
+    ax2[1].set_xlabel("$\Delta L$: depth of minimum")
+    ax2[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
+    ax2[1].errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
+    ax2[1].plot(x_1, m_1*x_1 + c_1)
+    ax2[1].legend([f'Corr: {coeff_1:.3g}'])
+    ax2[1].set_title('$\mathbf{E}[\\tau] \sim \exp(\Delta L)$')
 
     plt.tight_layout()
     plt.show()
