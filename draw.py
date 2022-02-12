@@ -99,7 +99,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
 
     plt.tight_layout()
     plt.show()
-    fig.savefig("results.png",dpi=300)
+    fig.savefig("results.png",dpi=500)
 
 if __name__=='__main__':
     config_fn = 'MLP_SGD.json' 
