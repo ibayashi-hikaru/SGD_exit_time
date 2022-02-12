@@ -27,7 +27,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax1[1].set_xlabel("$\lambda$")
     ax1[1].set_ylabel("$\left(\log(\mathbf{E}[\\tau])\\right)^2$")
-    ax1[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
+    ax1[1].errorbar(x_2, y_2, yerr=log_std**2, fmt='.k') 
     ax1[1].plot(x_2, m_2*x_2 + c_2)
     ax1[1].legend([f'Corr: {coeff_2:.3g}'])
     ax1[1].set_title('$\mathbf{E}[\\tau]\sim \exp(\lambda^{-1/2})$')
