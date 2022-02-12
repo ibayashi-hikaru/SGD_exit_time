@@ -226,7 +226,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
     ax2[2].set_xlabel("lr")
     ax2[2].set_ylabel("1/log(exit time)^2")
-    ax2[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
+    ax2[2].errorbar(x_3, y_3, yerr=std, fmt='.k') 
     ax2[2].plot(x_3, m_3*x_3 + c_3)
     ax2[2].legend([f'Corr: {coeff_3:.3g}'])
     ax2[2].set_title(f'tau = exp(lr^(-1/2))')
@@ -252,7 +252,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax3[1].set_xlabel("batch size")
     ax3[1].set_ylabel("log(exit time)")
-    ax3[1].errorbar(x_2, y_2, yerr=std*0, fmt='.k') 
+    ax3[1].errorbar(x_2, y_2, yerr=np.log(std), fmt='.k') 
     ax3[1].plot(x_2, m_2*x_2 + c_2)
     ax3[1].legend([f'Corr: {coeff_2:.3g}'])
     ax3[1].set_title(f'tau = exp(batch size)')
@@ -277,7 +277,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax4[1].set_xlabel("r")
     ax4[1].set_ylabel("log(exit time)")
-    ax4[1].errorbar(x_2, y_2, yerr=std*0, fmt='.k') 
+    ax4[1].errorbar(x_2, y_2, yerr=np.log(std), fmt='.k') 
     ax4[1].plot(x_2, m_2*x_2 + c_2)
     ax4[1].legend([f'Corr: {coeff_2:.3g}'])
     ax4[1].set_title(f'tau = exp(r)')
@@ -289,7 +289,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_3, c_3 = np.linalg.lstsq(A, y_3, rcond=None)[0]
     ax4[2].set_xlabel("r")
     ax4[2].set_ylabel("sqrt(log(exit time))")
-    ax4[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
+    ax4[2].errorbar(x_3, y_3, yerr=np.sqrt(np.log(std)), fmt='.k') 
     ax4[2].plot(x_3, m_3*x_3 + c_3)
     ax4[2].legend([f'Corr: {coeff_3:.3g}'])
     ax4[2].set_title(f'tau = exp(r^2)')
