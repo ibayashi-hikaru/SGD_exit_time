@@ -4,7 +4,7 @@ import matplotlib
 from scipy import stats
 import numpy as np
 def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results):
-    font = {'size'   : 15}
+    font = {'size' : 13}
     matplotlib.rc('font', **font)
 
     fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 3, figsize=(12, 16))
@@ -99,7 +99,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
 
     plt.tight_layout()
     plt.show()
-    fig.savefig("results.png",dpi=800)
+    fig.savefig("results.png",dpi=500)
 
 if __name__=='__main__':
     config_fn = 'MLP_SGD.json' 
