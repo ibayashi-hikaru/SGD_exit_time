@@ -66,7 +66,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax3[1].plot(x_2, m_2*x_2 + c_2)
     # ax3[1].set_ylim(bottom=0, top=None)
     ax3[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax3[1].set_title('$Theorem 1: \mathbf{E}[\\tau] \sim = \exp(B)$')
+    ax3[1].set_title('$\mathbf{E}[\\tau] \sim = \exp(B)$')
     # R
     (x, y, std, log_std, _) = r_results
     #
@@ -82,7 +82,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax4[1].plot(x_2, m_2*x_2 + c_2)
     # ax4[1].set_ylim(bottom=0, top=None)
     ax4[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax4[1].set_title('$Theorem 1: \mathbf{E}[\\tau] \sim \exp(\Delta L)$')
+    ax4[1].set_title('$\mathbf{E}[\\tau] \sim \exp(\Delta L)$')
     # Log
     # x_3 = x
     # y_3 = np.sqrt(np.log(y))
