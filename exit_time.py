@@ -209,6 +209,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     print(log_std.shape)
     ax1[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax1[1].plot(x_2, m_2*x_2 + c_2)
+    ax1[1].set_ylim(bottom=0, top=None)
     ax1[1].legend([f'Corr: {coeff_2:.3g}'])
     ax1[1].set_title(f'tau = exp(sharpness)')
     #
@@ -221,6 +222,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax1[2].set_ylabel("log(exit time)^2")
     ax1[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
     ax1[2].plot(x_3, m_3*x_3 + c_3)
+    ax1[2].set_ylim(bottom=0, top=None)
     ax1[2].legend([f'Corr: {coeff_3:.3g}'])
     ax1[2].set_title(f'tau = exp(sharpness^(1/2))')
     ###
@@ -247,6 +249,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax2[1].set_ylabel("log(exit time)")
     ax2[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax2[1].plot(x_2, m_2*x_2 + c_2)
+    ax2[1].set_ylim(bottom=0, top=None)
     ax2[1].legend([f'Corr: {coeff_2:.3g}'])
     ax2[1].set_title(f'tau = exp(lr^(-1))')
     #
@@ -259,6 +262,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax2[2].set_ylabel("log(exit time)^2")
     ax2[2].errorbar(x_3, y_3, yerr=std, fmt='.k') 
     ax2[2].plot(x_3, m_3*x_3 + c_3)
+    ax2[2].set_ylim(bottom=0, top=None)
     ax2[2].legend([f'Corr: {coeff_3:.3g}'])
     ax2[2].set_title(f'tau = exp(lr^(-1/2))')
     # Batch size
@@ -284,6 +288,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax3[1].set_ylabel("log(exit time)")
     ax3[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax3[1].plot(x_2, m_2*x_2 + c_2)
+    ax3[1].set_ylim(bottom=0, top=None)
     ax3[1].legend([f'Corr: {coeff_2:.3g}'])
     ax3[1].set_title(f'tau = exp(batch size)')
     # R
@@ -309,6 +314,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax4[1].set_ylabel("log(exit time)")
     ax4[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax4[1].plot(x_2, m_2*x_2 + c_2)
+    ax4[1].set_ylim(bottom=0, top=None)
     ax4[1].legend([f'Corr: {coeff_2:.3g}'])
     ax4[1].set_title(f'tau = exp(r)')
     # Log
@@ -321,6 +327,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax4[2].set_ylabel("sqrt(log(exit time))")
     ax4[2].errorbar(x_3, y_3, yerr=std*0, fmt='.k') 
     ax4[2].plot(x_3, m_3*x_3 + c_3)
+    ax4[2].set_ylim(bottom=0, top=None)
     ax4[2].legend([f'Corr: {coeff_3:.3g}'])
     ax4[2].set_title(f'tau = exp(r^2)')
 
