@@ -78,7 +78,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax4[1].set_xlabel("$\Delta L$: depth of minimum")
     ax4[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
-    ax4[1].errorbar(x_2, y_2, yerr=log_std, fmt='.', capsize=2) 
+    ax4[1].errorbar(x_2, y_2, yerr=log_std, fmt='o', capsize=2) 
     ax4[1].plot(x_2, m_2*x_2 + c_2)
     # ax4[1].set_ylim(bottom=0, top=None)
     ax4[1].legend([f'Corr: {coeff_2:.3g}'])
