@@ -90,7 +90,7 @@ def get_sharpness_vs_exit_time(config, comm):
                                                         config['lr_min'],
                                                         sharpness,
                                                         config['batch_size_min'],
-                                                        config['r_min'])
+                                                        config['r_min']/sharpness)
             sample_id += comm_size
         comm.Barrier()
         if rank==0:
