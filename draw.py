@@ -21,12 +21,12 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     # Log
     #
     x_2 = x
-    y_2 = np.log(y)
+    y_2 = np.log(y)**2
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x_2))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
     ax1[1].set_xlabel("$\lambda$")
-    ax1[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
+    ax1[1].set_ylabel("$\left(\log(\mathbf{E}[\\tau])\\right)^2$")
     ax1[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax1[1].plot(x_2, m_2*x_2 + c_2)
     ax1[1].legend([f'Corr: {coeff_2:.3g}'])
