@@ -25,7 +25,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x_2))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
-    ax1[1].set_xlabel("$\lambda$")
+    ax1[1].set_xlabel("$\lambda$:sharpness")
     ax1[1].set_ylabel("$\left(\log(\mathbf{E}[\\tau])\\right)^2$")
     ax1[1].errorbar(x_2, y_2, yerr=log_std+np.sqrt(2)*np.sqrt(y_2)*log_std, fmt='.k') 
     ax1[1].plot(x_2, m_2*x_2 + c_2)
@@ -39,7 +39,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
-    ax2[1].set_xlabel("$\eta$")
+    ax2[1].set_xlabel("$\eta$: Learning rate")
     ax2[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
     ax2[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax2[1].plot(x_2, m_2*x_2 + c_2)
@@ -50,22 +50,13 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     # Batch size
     (x, y, std, log_std, _) = batch_size_results
     #
-    # coeff, _ = stats.pearsonr(x, y)
-    # A = np.vstack([x, np.ones(len(x))]).T
-    # m, c = np.linalg.lstsq(A, y, rcond=None)[0]
-    # ax3[0].set_xlabel("batch_size")
-    # ax3[0].set_ylabel("exit time")
-    # ax3[0].errorbar(x, y, yerr=std, fmt='.k') 
-    # ax3[0].plot(x, m*x + c) 
-    # # ax3[0].set_ylim(bottom=0, top=None)
-    # ax3[0].legend([f'Corr: {coeff:.3g}'])
     # Log
     x_2 = x
     y_2 = np.log(y)
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
-    ax3[1].set_xlabel("$B$")
+    ax3[1].set_xlabel("$B$: Batch size")
     ax3[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
     ax3[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax3[1].plot(x_2, m_2*x_2 + c_2)
@@ -75,22 +66,13 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     # R
     (x, y, std, log_std, _) = r_results
     #
-    # coeff, _ = stats.pearsonr(x, y)
-    # A = np.vstack([x, np.ones(len(x))]).T
-    # m, c = np.linalg.lstsq(A, y, rcond=None)[0]
-    # ax4[0].set_xlabel("r")
-    # ax4[0].set_ylabel("exit time")
-    # ax4[0].errorbar(x, y, yerr=std, fmt='.k') 
-    # ax4[0].plot(x, m*x + c) 
-    # # ax4[0].set_ylim(bottom=0, top=None)
-    # ax4[0].legend([f'Corr: {coeff:.3g}'])
     # Log
     x_2 = x**2
     y_2 = np.log(y)
     coeff_2, _ = stats.pearsonr(x_2, y_2)
     A = np.vstack([x_2, np.ones(len(x))]).T
     m_2, c_2 = np.linalg.lstsq(A, y_2, rcond=None)[0]
-    ax4[1].set_xlabel("$\Delta L$")
+    ax4[1].set_xlabel("$\Delta L$: depth of minimum")
     ax4[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
     ax4[1].errorbar(x_2, y_2, yerr=log_std, fmt='.k') 
     ax4[1].plot(x_2, m_2*x_2 + c_2)
