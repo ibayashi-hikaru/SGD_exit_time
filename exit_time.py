@@ -195,6 +195,8 @@ def main():
     comm = MPI.COMM_WORLD
     comm_size = comm.Get_size()
     rank = comm.Get_rank()
+    if rank == 0:
+        os.mkdir(config_fn[:-5])
 
     if len(sys.argv) > 1 and sys.argv[1] == "sanity_check":
         config['exit_trial_num'] = 10 
@@ -247,7 +249,6 @@ def main():
         print(end="", flush=True)
 
     if rank == 0:
-        os.mkdir(config_fn[:-5])
         np.save(f"./{config_fn[:-5]}/sharpness_results" , sharpness_results)
         np.save(f"./{config_fn[:-5]}/lr_results"        , lr_results)
         np.save(f"./{config_fn[:-5]}/batch_size_results", batch_size_results)
