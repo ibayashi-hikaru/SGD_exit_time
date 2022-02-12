@@ -30,7 +30,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax1[1].errorbar(x_2, y_2, yerr=log_std+np.sqrt(2)*np.sqrt(y_2)*log_std, fmt='.k') 
     ax1[1].plot(x_2, m_2*x_2 + c_2)
     ax1[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax1[1].set_title('$\mathbf{E}[\\tau]\sim \exp(\lambda^{-1/2})$')
+    ax1[1].set_title('$Theorem 1:\mathbf{E}[\\tau]\sim \exp(\lambda^{-1/2})$')
     ###
     # Learning rate
     (x, y, std, log_std, _) = lr_results
@@ -45,7 +45,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax2[1].plot(x_2, m_2*x_2 + c_2)
     # ax2[1].set_ylim(bottom=0, top=None)
     ax2[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax2[1].set_title('$\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
+    ax2[1].set_title('$Theorem 1:\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
     #
     # Batch size
     (x, y, std, log_std, _) = batch_size_results
@@ -71,7 +71,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax3[1].plot(x_2, m_2*x_2 + c_2)
     # ax3[1].set_ylim(bottom=0, top=None)
     ax3[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax3[1].set_title('$\mathbf{E}[\\tau] \sim = \exp(B)$')
+    ax3[1].set_title('$Theorem 1: \mathbf{E}[\\tau] \sim = \exp(B)$')
     # R
     (x, y, std, log_std, _) = r_results
     #
@@ -96,7 +96,7 @@ def draw(config_fn, sharpness_results, lr_results, batch_size_results, r_results
     ax4[1].plot(x_2, m_2*x_2 + c_2)
     # ax4[1].set_ylim(bottom=0, top=None)
     ax4[1].legend([f'Corr: {coeff_2:.3g}'])
-    ax4[1].set_title('$\mathbf{E}[\\tau] \sim \exp(\Delta L)$')
+    ax4[1].set_title('$Theorem 1: \mathbf{E}[\\tau] \sim \exp(\Delta L)$')
     # Log
     # x_3 = x
     # y_3 = np.sqrt(np.log(y))
