@@ -1,7 +1,7 @@
 {
     "core": 0,
     "seed": -1,
-    "num_dim": 2000,
+    "num_dim": 3000,
     "sharpness_min": 1,
     "sharpness_interval": 8,
     "r_min": 1,
