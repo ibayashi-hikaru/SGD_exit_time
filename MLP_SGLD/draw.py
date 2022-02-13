@@ -4,7 +4,7 @@ import matplotlib
 from scipy import stats
 import numpy as np
 def draw(sharpness_results, lr_results, batch_size_results, r_results):
-    font = {'size' : 13}
+    font = {'size' : 15}
     matplotlib.rc('font', **font)
     fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(12, 12))
     # Sharpness 
