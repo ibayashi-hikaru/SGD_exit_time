@@ -74,8 +74,8 @@ class MLP(BaseNNs):
         super(MLP, self).__init__(k)
         self.k = torch.tensor(k) 
         self.k.requires_grad = False
-        self.layer0 = torch.nn.Linear(10, 1000, bias=False)
-        self.layer1 = torch.nn.Linear(1000,  2, bias=False)
+        self.layer0 = torch.nn.Linear(10, num_dim, bias=False)
+        self.layer1 = torch.nn.Linear(num_dim,  2, bias=False)
 
     def init_params(self):
         self.load_state_dict(self.state_dict(), "./MLP_init_params.pt")
