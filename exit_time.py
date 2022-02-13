@@ -21,7 +21,7 @@ def get_exit_time(config, lr, sharpness, batch_size, r):
 
     exit_time = 0
     while(distance(init_model, model) < r):
-        model.zero_grad()
+        # model.zero_grad()
         if config["optim"] == "SGD":
             data_size = dataset.train.x.size()[0]
             shuffled_data = dataset.train.x[torch.randperm(data_size)]
