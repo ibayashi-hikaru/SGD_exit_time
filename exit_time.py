@@ -214,17 +214,18 @@ def main():
     #
     global dataset 
     dataset = get_dataset(config)
-    #if rank == 0 and config["model"] == 'MLP':
-        # report(rank, "Training Started")
-        # print( end="", flush=True)
-        # model = get_model(config, 1)
-        # for itr in range(10000):
-        #     if itr % 100 == 0: report(rank, f"{itr}/10000")
-        #     split_num = 1000 
-        #     for batch in torch.split(dataset.train.x, split_num):  
-        #         model(batch).backward()
-        #     model.update(0.0001/split_num)
-        # torch.save(model.state_dict(), "./MLP_init_params.pt")
+    if rank == 0 and config["model"] == 'MLP':
+        report(rank, "Training Started")
+        print( end="", flush=True)
+        model = get_model(config, 1)
+        for itr in range(10000):
+            if itr % 1000 == 0: report(rank, f"{itr}/10000")
+            split_num = 1000 
+            model.zero_grad()
+            for batch in torch.split(dataset.train.x, split_num):  
+                model(batch).backward()
+            model.update(0.0001/split_num)
+        torch.save(model.state_dict(), "./MLP_init_params.pt")
     comm.Barrier()
     #
     report(rank, "Sharpness Analysis Started")
