@@ -6,9 +6,7 @@ import numpy as np
 def draw(sharpness_results, lr_results, batch_size_results, r_results):
     font = {'size' : 13}
     matplotlib.rc('font', **font)
-
     fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(12, 12))
-    plt.suptitle("SGLD", x=0.05, y=1)
     # Sharpness 
     (x, y, std, log_std, _) = sharpness_results
     x_1 = x
@@ -21,8 +19,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     ax1[0].errorbar(x_1, y_1, yerr=log_std+np.sqrt(2)*np.sqrt(y_1)*log_std, fmt='.', capsize=2) 
     ax1[0].plot(x_1, m_1*x_1 + c_1)
     ax1[0].legend([f'Corr: {coeff_1:.3g}'])
-    ax1[0].set_title('$Theorem 1:\mathbf{E}[\\tau]\sim \exp(\lambda^{-1/2})$')
-    ###
+    ax1[0].set_title('$\mathbf{E}[\\tau]\sim \exp(\lambda^{-1/2})$')
     # Learning rate
     (x, y, std, log_std, _) = lr_results
     x_1 = x
@@ -35,8 +32,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     ax1[1].errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
     ax1[1].plot(x_1, m_1*x_1 + c_1)
     ax1[1].legend([f'Corr: {coeff_1:.3g}'])
-    ax1[1].set_title('$Theorem 1:\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
-    #
+    ax1[1].set_title('$\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
     # Batch size
     (x, y, std, log_std, _) = batch_size_results
     x_1 = x
@@ -52,8 +48,6 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     ax2[0].set_title('$\mathbf{E}[\\tau] \sim = \exp(B)$')
     # R
     (x, y, std, log_std, _) = r_results
-    #
-    # Log
     x_1 = x**2
     y_1 = np.log(y)
     coeff_1, _ = stats.pearsonr(x_1, y_1)
@@ -68,7 +62,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
 
     plt.tight_layout()
     plt.show()
-    fig.savefig("results.png",dpi=500)
+    fig.savefig("results.png", dpi=500)
 
 if __name__=='__main__':
     sharpness_results  = np.load(f"./sharpness_results.npy")

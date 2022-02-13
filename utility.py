@@ -3,8 +3,9 @@
 
 # -------------------------------------------------------------------
 import datetime
-def report(*args):
-    print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')+' '+' '.join(map(str,args)).replace('\n',''))
+def report(rank, *args):
+    if rank == 0:
+        print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')+' '+' '.join(map(str,args)).replace('\n',''), flush=True)
 
 # -------------------------------------------------------------------
 import torch

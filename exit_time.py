@@ -1,7 +1,8 @@
 from utility import *
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-dtype = torch.float
-#
+import argparse
+args = argparse.ArgumentParser()
+args.add_argument('--setup', default='', type=str)
+args.add_argument('--sanity_check', action='store_true')
 dataset = None
 #
 import torch
@@ -184,11 +185,11 @@ import os
 import time
 import numpy as np
 import sys
-import optuna
 from mpi4py import MPI
 import json
 def main():
-    config_fn = 'MLP_SGLD.json' 
+    setup = args.parse_args().setup
+    config_fn = setup + "/config.json"
     with open(config_fn) as json_file:
         config = json.load(json_file)
     #
@@ -196,24 +197,21 @@ def main():
     comm_size = comm.Get_size()
     rank = comm.Get_rank()
 
-    if len(sys.argv) > 1 and sys.argv[1] == "sanity_check":
-        config['exit_trial_num'] = 10 
+    if args.parse_args().sanity_check:
+        config['exit_tril_num'] = 10 
         config['interval_sample'] = 2 
-        if rank == 0:
-            report("Runnig Sanity Check")
-            print(end="", flush=True)
+        report(rank, "Runnig Sanity Check")
+    #
     set_device(config)
-    if rank == 0:
-        if 0<=config["core"]<torch.cuda.device_count() and torch.cuda.is_available():
-            report(f'use GPU; core:{config["core"]}')
-        else:
-            report('use CPU in this trial')
-        print(end="", flush=True)
+    if 0<=config["core"]<torch.cuda.device_count() and torch.cuda.is_available():
+        report(rank, f'use GPU; core:{config["core"]}')
+    else:
+        report(rank, 'use CPU in this trial')
     #
     global dataset 
     dataset = get_dataset(config)
     if rank == 0 and config["model"] == 'MLP':
-        report("Training Started")
+        report(rank, "Training Started")
         print( end="", flush=True)
         model = get_model(config, 1)
         for _ in range(10000):
@@ -222,38 +220,25 @@ def main():
         torch.save(model.state_dict(), "./MLP_init_params.pt")
     comm.Barrier()
     #
-    # Sharpess
-    if rank == 0:
-        report("Sharpness Analysis Started")
-        print( end="", flush=True)
+    report(rank, "Sharpness Analysis Started")
     sharpness_results = get_sharpness_vs_exit_time(config, comm)
-    # Learning ratae
-    if rank == 0:
-        report("LR Analysis Started")
-        print(end="", flush=True)
-    lr_results         = get_lr_vs_exit_time(config, comm)
-    # batchsize
-    if rank == 0:
-        report("Batch Sizes Analysis Started")
-        print(end="", flush=True)
+    #
+    report(rank, "LR Analysis Started")
+    lr_results = get_lr_vs_exit_time(config, comm)
+    #
+    report(rank, "Batch Sizes Analysis Started")
     batch_size_results = get_batch_size_vs_exit_time(config, comm)
-    # r
-    if rank == 0:
-        report("r Analysis Started")
-        print(end="", flush=True)
+    #
+    report(rank, "R Analysis Started")
     r_results = get_r_vs_exit_time(config, comm)
+    #
+    report(rank, "Saving")
     if rank == 0:
-        report("Drawing Started")
-        print(end="", flush=True)
-
-    if rank == 0:
-        np.save(f"./{config_fn[:-5]}/sharpness_results" , sharpness_results)
-        np.save(f"./{config_fn[:-5]}/lr_results"        , lr_results)
-        np.save(f"./{config_fn[:-5]}/batch_size_results", batch_size_results)
-        np.save(f"./{config_fn[:-5]}/r_results"         , r_results)
-    if rank == 0:
-        report("Done")
-       print(end="", flush=True)
+        np.save(f"./{setup}/sharpness_results" , sharpness_results)
+        np.save(f"./{setup}/lr_results"        , lr_results)
+        np.save(f"./{setup}/batch_size_results", batch_size_results)
+        np.save(f"./{setup}/r_results"         , r_results)
+    report(rank, "Done")
     
 
 if __name__=='__main__':
