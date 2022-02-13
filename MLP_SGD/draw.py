@@ -19,7 +19,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     ax1[0].set_ylabel("$\left(\log(\mathbf{E}[\\tau])\\right)^2$")
     ax1[0].errorbar(x_1, y_1, yerr=log_std+np.sqrt(2)*np.sqrt(y_1)*log_std, fmt='.', capsize=2) 
     ax1[0].plot(x_1, m_1*x_1 + c_1)
-    ax1[0].legend([f'Corr: {coeff_1:.3g}'])
+    ax1[0].legend([f'Linear Correlation: {coeff_1:.3g}'])
     ax1[0].set_title('$Theorem 1:\mathbf{E}[\\tau]\sim \exp(\lambda^{-1/2})$')
     ###
     # Learning rate
@@ -33,7 +33,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     ax1[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
     ax1[1].errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
     ax1[1].plot(x_1, m_1*x_1 + c_1)
-    ax1[1].legend([f'Corr: {coeff_1:.3g}'])
+    ax1[1].legend([f'Linear Correlation: {coeff_1:.3g}'])
     ax1[1].set_title('$Theorem 1:\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
     #
     # Batch size
@@ -47,7 +47,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     ax2[0].set_ylabel("$\log(\mathbf{E}[\\tau])$")
     ax2[0].errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
     ax2[0].plot(x_1, m_1*x_1 + c_1)
-    ax2[0].legend([f'Corr: {coeff_1:.3g}'])
+    ax2[0].legend([f'Linear Correlation: {coeff_1:.3g}'])
     ax2[0].set_title('$\mathbf{E}[\\tau] \sim = \exp(B)$')
     # R
     (x, y, std, log_std, _) = r_results
@@ -62,7 +62,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     ax2[1].set_ylabel("$\log(\mathbf{E}[\\tau])$")
     ax2[1].errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
     ax2[1].plot(x_1, m_1*x_1 + c_1)
-    ax2[1].legend([f'Corr: {coeff_1:.3g}'])
+    ax2[1].legend([f'Linear Correlation: {coeff_1:.3g}'])
     ax2[1].set_title('$\mathbf{E}[\\tau] \sim \exp(\Delta L)$')
 
     plt.tight_layout()
