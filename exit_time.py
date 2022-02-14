@@ -227,10 +227,7 @@ def main():
             indices = torch.arange(10430)
             for batch in torch.split(indices, split_num):  
                 model(dataset.train.x[batch], dataset.train.y[batch]).backward()
-                print(model(dataset.train.x[batch], dataset.train.y[batch]).item())
                 model.update(0.01)
-                print(model(dataset.train.x[batch], dataset.train.y[batch]).item())
-                print("----")
         torch.save(model.state_dict(), "./MLP_init_params.pt")
     comm.Barrier()
     #
