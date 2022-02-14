@@ -83,12 +83,14 @@ class MLP(BaseNNs):
             self.layer0.weight /= torch.sqrt(self.k)
             self.layer1.weight /= torch.sqrt(self.k)
 
-    def forward(self, x):
+    def forward(self, x, y):
         x = x.flatten(1,-1)
         x = torch.sqrt(self.k) * self.layer0(x)
         x = torch.relu(x) 
         x = torch.sqrt(self.k) * self.layer1(x) 
         # Emulating quadratic loss as if every label is 0
+        x = torch.nn.Softmax(dim=1)(x)
+        x = x - y
         x = x.norm(dim=1, p=2)
         x = torch.mean(x)
         return x

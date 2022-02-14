@@ -24,15 +24,18 @@ def get_exit_time(config, lr, sharpness, batch_size, r):
         model.zero_grad()
         if config["optim"] == "SGD":
             data_size = dataset.train.x.size()[0]
-            shuffled_data = dataset.train.x[torch.randperm(data_size)]
-            mini_batch = shuffled_data[:batch_size,:]
-            model(mini_batch).backward()
+            shuffled_data_x = dataset.train.x[torch.randperm(data_size)]
+            shuffled_data_y = dataset.train.y[torch.randperm(data_size)]
+            mini_batch_x = shuffled_data_x[:batch_size,:]
+            mini_batch_y = shuffled_data_y[:batch_size,:]
+            model(mini_batch_x, mini_batch_y).backward()
             model.update(lr)
         elif config["optim"] == "SGLD":
             # Full gradient
             split_num = 1000
-            for batch in torch.split(dataset.train.x, split_num):  
-                model(batch).backward()
+            indices = torch.arange(10430)
+            for batch in torch.split(indices, split_num):  
+                model(dataset.train.x[batch], dataset.train.y[batch]).backward()
             model.update(lr / split_num)
             model.perturb(lr)
         else:
@@ -221,8 +224,9 @@ def main():
             # if itr % 1000 == 0: report(rank, f"{itr}/10000")
             split_num = 1000
             model.zero_grad()
-            for batch in torch.split(dataset.train.x, split_num):  
-                model(batch).backward()
+            indices = torch.arange(10430)
+            for batch in torch.split(indices, split_num):  
+                model(dataset.train.x[batch], dataset.train.y[batch]).backward()
             model.update(0.0001/split_num)
         torch.save(model.state_dict(), "./MLP_init_params.pt")
     comm.Barrier()

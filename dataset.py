@@ -28,6 +28,7 @@ class CIFAR2(Dataset):
 
 import pandas as pd
 import numpy as np
+import torch.nn.functional as F
 class AVILA2(Dataset):
 
     def __init__(self, root, train, transform=None):
@@ -52,7 +53,7 @@ class AVILA2(Dataset):
             self.data = torch.nn.functional.normalize(self.data)
             #
             binary_label = list(map(lambda x: (ord(x) - 65)%2, Y_train.values[:,0]))
-            self.targets = torch.tensor(binary_label)
+            self.targets = F.one_hot(torch.tensor(binary_label))
         else:
             test_data  = pd.read_csv("DOWNLOADs/AVILA/avila-ts.txt")
             X_test = test_data.iloc[:, [0,1,2,3,4,5,6,7,8,9]] 
@@ -65,7 +66,7 @@ class AVILA2(Dataset):
             self.data = torch.tensor(X_test.values).type(torch.FloatTensor)
             #
             binary_label = list(map(lambda x: (ord(x) - 65)%2, Y_test.values[:,0]))
-            self.targets = torch.tensor(binary_label)
+            self.targets = F.one_hot(torch.tensor(binary_label))
 
     def __len__(self):
         return len(self.data)
