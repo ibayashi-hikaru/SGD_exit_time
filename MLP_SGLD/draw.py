@@ -3,11 +3,11 @@ import matplotlib
 from scipy import stats
 import numpy as np
 def draw(sharpness_results, lr_results, batch_size_results, r_results):
-    font = {'size' : 15}
+    font = {'size' : 22}
     matplotlib.rc('font', **font)
-    # Sharpness 
     figure = plt.gcf()
     figure.set_size_inches(8, 8)
+    # Sharpness 
     (x, y, std, log_std, _) = sharpness_results
     x_1 = x
     y_1 = y
@@ -20,6 +20,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau] \perp \!\!\!\! \perp \lambda$')
+    plt.tight_layout()
     plt.show()
     plt.savefig("SGLD_sharpness.pdf", dpi=100)
     #
@@ -37,6 +38,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
+    plt.tight_layout()
     plt.show()
     plt.savefig("SGLD_learning_rate.pdf", dpi=100)
     # Batch size
@@ -53,6 +55,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau] \sim \exp(B)$')
+    plt.tight_layout()
     plt.show()
     plt.savefig("SGLD_batch_size.pdf", dpi=100)
     # R
@@ -70,9 +73,9 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau] \sim \exp(\Delta L)$')
+    plt.tight_layout()
     plt.show()
     plt.savefig("SGLD_delta_L.pdf", dpi=100)
-
     #
     #
     fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(12, 12))
