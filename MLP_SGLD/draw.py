@@ -20,7 +20,6 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau] \perp \!\!\!\! \perp \lambda$')
     plt.tight_layout()
-    plt.figure(figsize=(100, 100))
     plt.show()
     plt.savefig("sharpness.png", dpi=100)
     #
