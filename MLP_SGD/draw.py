@@ -1,4 +1,3 @@
-
 import matplotlib.pyplot as plt
 import matplotlib
 from scipy import stats
@@ -20,7 +19,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau]\sim \exp(\lambda^{-1/2})$')
     plt.show()
-    plt.savefig("sharpness.pdf", dpi=100)
+    plt.savefig("SGD_sharpness.pdf", dpi=100)
     # Learning rate
     plt.clf()
     (x, y, std, log_std, _) = lr_results
@@ -36,7 +35,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
     plt.show()
-    plt.savefig("learning_rate.pdf", dpi=100)
+    plt.savefig("SGD_learning_rate.pdf", dpi=100)
     # Batch size
     plt.clf()
     (x, y, std, log_std, _) = batch_size_results
@@ -50,9 +49,9 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
-    plt.title('$\mathbf{E}[\\tau] \sim = \exp(B)$')
+    plt.title('$\mathbf{E}[\\tau] \sim \exp(B)$')
     plt.show()
-    plt.savefig("batch_size.pdf", dpi=100)
+    plt.savefig("SGD_batch_size.pdf", dpi=100)
     # R
     plt.clf()
     (x, y, std, log_std, _) = r_results
@@ -67,9 +66,8 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau] \sim \exp(\Delta L)$')
-    plt.tight_layout()
     plt.show()
-    plt.savefig("Delta_L.pdf", dpi=100)
+    plt.savefig("SGD_Delta_L.pdf", dpi=100)
 
     fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(12, 12))
     # Sharpness 
