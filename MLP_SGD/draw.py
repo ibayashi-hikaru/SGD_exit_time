@@ -6,6 +6,71 @@ import numpy as np
 def draw(sharpness_results, lr_results, batch_size_results, r_results):
     font = {'size' : 15}
     matplotlib.rc('font', **font)
+    # Sharpness 
+    (x, y, std, log_std, _) = sharpness_results
+    x_1 = x
+    y_1 = np.log(y)**2
+    coeff_1, _ = stats.pearsonr(x_1, y_1)
+    A = np.vstack([x_1, np.ones(len(x_1))]).T
+    m_1, c_1 = np.linalg.lstsq(A, y_1, rcond=None)[0]
+    plt.xlabel("$\lambda$:sharpness")
+    plt.ylabel("$\left(\log(\mathbf{E}[\\tau])\\right)^2$")
+    plt.errorbar(x_1, y_1, yerr=log_std+np.sqrt(2)*np.sqrt(y_1)*log_std, fmt='.', capsize=2) 
+    plt.plot(x_1, m_1*x_1 + c_1)
+    plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
+    plt.title('$\mathbf{E}[\\tau]\sim \exp(\lambda^{-1/2})$')
+    plt.show()
+    plt.savefig("sharpness.pdf", dpi=100)
+    # Learning rate
+    plt.clf()
+    (x, y, std, log_std, _) = lr_results
+    x_1 = x
+    y_1 = np.log(y)
+    coeff_1, _ = stats.pearsonr(x_1, y_1)
+    A = np.vstack([x_1, np.ones(len(x))]).T
+    m_1, c_1 = np.linalg.lstsq(A, y_1, rcond=None)[0]
+    plt.xlabel("$\eta$: Learning rate")
+    plt.ylabel("$\log(\mathbf{E}[\\tau])$")
+    plt.errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
+    plt.plot(x_1, m_1*x_1 + c_1)
+    plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
+    plt.title('$\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
+    plt.show()
+    plt.savefig("learning_rate.pdf", dpi=100)
+    # Batch size
+    plt.clf()
+    (x, y, std, log_std, _) = batch_size_results
+    x_1 = x
+    y_1 = np.log(y)
+    coeff_1, _ = stats.pearsonr(x_1, y_1)
+    A = np.vstack([x_1, np.ones(len(x))]).T
+    m_1, c_1 = np.linalg.lstsq(A, y_1, rcond=None)[0]
+    plt.xlabel("$B$: Batch size")
+    plt.ylabel("$\log(\mathbf{E}[\\tau])$")
+    plt.errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
+    plt.plot(x_1, m_1*x_1 + c_1)
+    plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
+    plt.title('$\mathbf{E}[\\tau] \sim = \exp(B)$')
+    plt.show()
+    plt.savefig("batch_size.pdf", dpi=100)
+    # R
+    plt.clf()
+    (x, y, std, log_std, _) = r_results
+    x_1 = x**2
+    y_1 = np.log(y)
+    coeff_1, _ = stats.pearsonr(x_1, y_1)
+    A = np.vstack([x_1, np.ones(len(x))]).T
+    m_1, c_1 = np.linalg.lstsq(A, y_1, rcond=None)[0]
+    plt.xlabel("$\Delta L$: depth of minimum")
+    plt.ylabel("$\log(\mathbf{E}[\\tau])$")
+    plt.errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
+    plt.plot(x_1, m_1*x_1 + c_1)
+    plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
+    plt.title('$\mathbf{E}[\\tau] \sim \exp(\Delta L)$')
+    plt.tight_layout()
+    plt.show()
+    plt.savefig("Delta_L.pdf", dpi=100)
+
     fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(12, 12))
     # Sharpness 
     (x, y, std, log_std, _) = sharpness_results
