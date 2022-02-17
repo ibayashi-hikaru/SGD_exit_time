@@ -67,7 +67,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau] \sim \exp(\Delta L)$')
     plt.show()
-    plt.savefig("SGD_Delta_L.pdf", dpi=100)
+    plt.savefig("SGD_delta_L.pdf", dpi=100)
 
     fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(12, 12))
     # Sharpness 
