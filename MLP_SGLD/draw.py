@@ -19,9 +19,10 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau] \perp \!\!\!\! \perp \lambda$')
+    plt.figure(figsize=(3, 3))
     plt.tight_layout()
     plt.show()
-    plt.savefig("sharpness.png", figsize=(8, 6), dpi=100)
+    plt.savefig("sharpness.png", dpi=100)
     #
     # Learning rate
     # (x, y, std, log_std, _) = lr_results
