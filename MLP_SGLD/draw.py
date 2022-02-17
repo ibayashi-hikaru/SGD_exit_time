@@ -7,7 +7,6 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     font = {'size' : 15}
     matplotlib.rc('font', **font)
     # Sharpness 
-    plt.figure(figsize=(5, 5))
     (x, y, std, log_std, _) = sharpness_results
     x_1 = x
     y_1 = y
