@@ -23,7 +23,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.title('$\mathbf{E}[\\tau] \perp \!\!\!\! \perp \lambda$')
     plt.tight_layout()
     plt.show()
-    plt.savefig("sharpness.png", dpi=100)
+    plt.savefig("sharpness.pdf", dpi=100)
     #
     # Learning rate
     plt.clf()
@@ -40,7 +40,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau]\sim \exp(\eta^{-1})$')
     plt.show()
-    plt.savefig("learning_rate.png", dpi=100)
+    plt.savefig("learning_rate.pdf", dpi=100)
     # Batch size
     plt.clf()
     (x, y, std, log_std, _) = batch_size_results
@@ -56,7 +56,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau] \sim \exp(B)$')
     plt.show()
-    plt.savefig("batch_size.png", dpi=100)
+    plt.savefig("batch_size.pdf", dpi=100)
     # R
     plt.clf()
     (x, y, std, log_std, _) = batch_size_results
@@ -73,7 +73,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau] \sim \exp(\Delta L)$')
     plt.show()
-    plt.savefig("delta_L.png", dpi=100)
+    plt.savefig("delta_L.pdf", dpi=100)
 
     #
     #
