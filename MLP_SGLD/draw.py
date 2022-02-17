@@ -7,6 +7,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     font = {'size' : 15}
     matplotlib.rc('font', **font)
     # Sharpness 
+    plt.figure(figsize=(3, 3))
     (x, y, std, log_std, _) = sharpness_results
     x_1 = x
     y_1 = y
@@ -19,7 +20,6 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\tau] \perp \!\!\!\! \perp \lambda$')
-    plt.figure(figsize=(3, 3))
     plt.tight_layout()
     plt.show()
     plt.savefig("sharpness.png", dpi=100)
