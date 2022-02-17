@@ -21,7 +21,6 @@ def get_exit_time(config, lr, sharpness, batch_size, r):
 
     exit_time = 0
     while(distance(init_model, model) < r):
-        model.zero_grad()
         if config["optim"] == "SGD":
             data_size = dataset.train.x.size()[0]
             shuffled_data_x = dataset.train.x[torch.randperm(data_size)]
@@ -223,7 +222,6 @@ def main():
         for itr in range(100):
             # if itr % 1000 == 0: report(rank, f"{itr}/10000")
             split_num = 1000
-            model.zero_grad()
             indices = torch.arange(10430)
             for batch in torch.split(indices, split_num):  
                 model(dataset.train.x[batch], dataset.train.y[batch]).backward()
