@@ -20,6 +20,14 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     ax1[0].plot(x_1, m_1*x_1 + c_1)
     ax1[0].legend([f'Linear Correlation: {coeff_1:.3g}'])
     ax1[0].set_title('$\mathbf{E}[\\tau] \perp \!\!\!\! \perp \lambda$')
+    #
+    plt.xlabel("$\lambda$:sharpness")
+    plt.ylabel("$\mathbf{E}[\\tau]$")
+    plt.errorbar(x_1, y_1, yerr=std, fmt='.', capsize=2) 
+    plt.plot(x_1, m_1*x_1 + c_1)
+    plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
+    plt.title('$\mathbf{E}[\\tau] \perp \!\!\!\! \perp \lambda$')
+    plt.savefig("sharpness.png", dpi=100)
     # Learning rate
     (x, y, std, log_std, _) = lr_results
     x_1 = x
