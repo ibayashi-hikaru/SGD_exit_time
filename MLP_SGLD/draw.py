@@ -21,7 +21,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.title('$\mathbf{E}[\\tau] \perp \!\!\!\! \perp \lambda$')
     plt.tight_layout()
     plt.show()
-    plt.savefig("sharpness.png", dpi=100)
+    plt.savefig("sharpness.png", figsize=(6, 6), dpi=100)
     #
     # Learning rate
     # (x, y, std, log_std, _) = lr_results
