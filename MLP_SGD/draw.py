@@ -3,7 +3,7 @@ import matplotlib
 from scipy import stats
 import numpy as np
 def draw(sharpness_results, lr_results, batch_size_results, r_results):
-    font = {'size' : 20}
+    font = {'size' : 25}
     matplotlib.rc('font', **font)
     figure = plt.gcf()
     figure.set_size_inches(8, 8)
