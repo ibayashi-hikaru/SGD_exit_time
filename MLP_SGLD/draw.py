@@ -8,7 +8,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     matplotlib.rc('font', **font)
     # Sharpness 
     figure = plt.gcf()
-    figure.set_size_inches(8, 6)
+    figure.set_size_inches(8, 8)
     (x, y, std, log_std, _) = sharpness_results
     x_1 = x
     y_1 = y
