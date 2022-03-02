@@ -35,7 +35,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     m_1, c_1 = np.linalg.lstsq(A, y_1, rcond=None)[0]
     plt.xlabel("$\eta$: Learning rate")
     plt.ylabel("$\log(\mathbf{E}[\\nu])$")
-    plt.gca().xaxis.set_major_formatter(StrMethodFormatter('%.2e'))
+    plt.gca().xaxis.set_major_formatter(StrMethodFormatter('{x:.2e}'))
     plt.errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
