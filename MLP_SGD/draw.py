@@ -35,6 +35,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.xlabel("$\eta$: Learning rate")
     plt.ylabel("$\log(\mathbf{E}[\\nu])$")
     plt.gca().xaxis.set_major_formatter(StrMethodFormatter('{x:.1e}'))
+    plt.locator_params(axis="x", nbins=5)
     plt.errorbar(x_1, y_1, yerr=log_std, fmt='.', capsize=2) 
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
