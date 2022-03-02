@@ -219,14 +219,14 @@ def main():
     if rank == 0 and config["model"] == 'MLP':
         report(rank, "Training Started")
         model = get_model(config, 1)
-        for itr in range(100):
-            # if itr % 1000 == 0: report(rank, f"{itr}/10000")
-            split_num = 1000
-            indices = torch.arange(10430)
-            for batch in torch.split(indices, split_num):  
-                model(dataset.train.x[batch], dataset.train.y[batch]).backward()
-                model.update(0.01)
-        torch.save(model.state_dict(), "./MLP_init_params.pt")
+        # for itr in range(100):
+        #     # if itr % 1000 == 0: report(rank, f"{itr}/10000")
+        #     split_num = 1000
+        #     indices = torch.arange(10430)
+        #     for batch in torch.split(indices, split_num):  
+        #         model(dataset.train.x[batch], dataset.train.y[batch]).backward()
+        #         model.update(0.01)
+        # torch.save(model.state_dict(), "./MLP_init_params.pt")
     comm.Barrier()
     #
     report(rank, "Sharpness Analysis Started")
