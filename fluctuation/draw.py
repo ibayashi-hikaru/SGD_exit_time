@@ -39,8 +39,9 @@ def draw(trail, config, target_dir):
     #
     plt.xlabel('Steps')
     plt.ylabel('Loss')
-    plt.plot(t, train_loss, linestyle='--', marker='o', linewidth=2, markersize=7)
-    plt.plot(t, test_loss, linestyle='--', marker='o', linewidth=2, markersize=7)
+    plt.plot(t, train_loss, linestyle='--', marker='o', linewidth=2, markersize=7, label="Train")
+    plt.plot(t, test_loss, linestyle='--', marker='o', linewidth=2, markersize=7, label="Test")
+    plt.legend()
     plt.savefig("loss.pdf", dpi=100)
     #
     fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(16, 12))
