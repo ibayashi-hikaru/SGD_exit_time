@@ -1,0 +1,9 @@
+{
+  "core": 0,
+  "model": "VGG",
+  "data": "CIFAR10",
+  "batch_size": 16,
+  "lr": 0.01,
+  "threshold": 0.5,
+  "loss": "CE"
+}
