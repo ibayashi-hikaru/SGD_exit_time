@@ -34,16 +34,16 @@ def draw(trail, config, target_dir):
     figure.set_size_inches(12, 8)
     plt.xlabel('Steps')
     plt.ylabel('Sharpness')
-    plt.gca().xaxis.set_major_formatter(StrMethodFormatter('{x:.1e}'))
     plt.plot(t, sharpness, color="magenta", linestyle='--', marker='o', linewidth=2, markersize=7)
+    plt.locator_params(axis="x", nbins=5)
     plt.savefig("fluctuation.pdf", dpi=100)
     plt.clf()
     #
     plt.xlabel('Steps')
     plt.ylabel('Loss')
-    plt.gca().xaxis.set_major_formatter(StrMethodFormatter('{x:.1e}'))
     plt.plot(t, train_loss, linestyle='--', marker='o', linewidth=2, markersize=7, label="Train loss")
     plt.plot(t, test_loss, linestyle='--', marker='o', linewidth=2, markersize=7, label="Test loss")
+    plt.locator_params(axis="x", nbins=5)
     plt.legend()
     plt.savefig("loss.pdf", dpi=100)
     #
