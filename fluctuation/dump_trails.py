@@ -150,9 +150,7 @@ def main():
     dataset = get_dataset(config)
     model = get_model(config)
     #
-    for i in range(1):
-        report(f"Trial {i}")
-        dump_trails(dataset, model, config, f"results/trial_{i}")
+    dump_trails(dataset, model, config, f"results/trial_0")
     report('finish')    
 
 
