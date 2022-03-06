@@ -29,6 +29,7 @@ def draw(trail, config, target_dir):
     l2_norm = [status['l2_norm'] for status in trail]
     #
     font = {'size' : 29}
+    plt.rcParams["font.family"] = "Times New Roman"
     matplotlib.rc('font', **font)
     figure = plt.gcf()
     figure.set_size_inches(12, 8)
@@ -45,8 +46,8 @@ def draw(trail, config, target_dir):
     plt.plot(t, train_loss, linestyle='--', marker='o', linewidth=2, markersize=7, label="Train loss")
     plt.plot(t, test_loss, linestyle='--', marker='o', linewidth=2, markersize=7, label="Test loss")
     plt.locator_params(axis="x", nbins=5)
-    plt.tight_layout()
     plt.legend()
+    plt.tight_layout()
     plt.savefig("loss.pdf", dpi=100)
     #
     fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(16, 12))
