@@ -29,7 +29,7 @@ def draw(trail, config, target_dir):
     l2_norm = [status['l2_norm'] for status in trail]
     #
     font = {'size' : 29}
-    plt.rcParams["font.family"] = "Times New Roman"
+    plt.rcParams["font.family"] = "serif"
     matplotlib.rc('font', **font)
     figure = plt.gcf()
     figure.set_size_inches(12, 8)
