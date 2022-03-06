@@ -36,6 +36,7 @@ def draw(trail, config, target_dir):
     plt.ylabel('Sharpness')
     plt.plot(t, sharpness, linestyle='--', marker='o', linewidth=2, markersize=7)
     plt.locator_params(axis="x", nbins=5)
+    plt.tight_layout()
     plt.savefig("fluctuation.pdf", dpi=100)
     plt.clf()
     #
@@ -44,6 +45,7 @@ def draw(trail, config, target_dir):
     plt.plot(t, train_loss, linestyle='--', marker='o', linewidth=2, markersize=7, label="Train loss")
     plt.plot(t, test_loss, linestyle='--', marker='o', linewidth=2, markersize=7, label="Test loss")
     plt.locator_params(axis="x", nbins=5)
+    plt.tight_layout()
     plt.legend()
     plt.savefig("loss.pdf", dpi=100)
     #
