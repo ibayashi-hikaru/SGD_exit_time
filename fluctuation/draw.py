@@ -46,7 +46,7 @@ def draw(trail, config, target_dir):
     #
     #
     ax1[0].set_xlabel('steps')
-    ax1[0].set_ylabel('Accuracy')
+    ax1[0].set_ylabel('Loss')
     ax1[1].set_xlabel('steps')
     ax1[1].set_ylabel('Sharpness')
     ax2[0].set_xlabel('step')
