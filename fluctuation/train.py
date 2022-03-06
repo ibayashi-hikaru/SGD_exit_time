@@ -32,7 +32,7 @@ import sharpness.Minimum as Minimum
 import os
 def optimize(dataset, model, config, out_dir):
     loss_func = get_loss(config)
-    optimizer = torch.optim.SGD(model.parameters(), lr=config.lr, weight_decay=1e-5, momentum=0.9)
+    optimizer = torch.optim.SGD(model.parameters(), lr=config["lr"], weight_decay=1e-5, momentum=0.9)
 
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[75, 150], gamma=0.5)
 
@@ -40,7 +40,7 @@ def optimize(dataset, model, config, out_dir):
         model.train()
         measure = {'loss':0,'accuracy':0}
         index = torch.randperm(dataset.train.n)
-        for idx in torch.split(index, config.batch_size):
+        for idx in torch.split(index, config["batch_size"]):
             x = dataset.train.x[idx]
             y = dataset.train.y[idx]
             o = model(x)
@@ -92,7 +92,7 @@ def optimize(dataset, model, config, out_dir):
         assert not math.isnan(status['test']['loss']),  'find nan in test-loss'
         # Save Weight
         # torch.save(model.state_dict(), out_dir + f"/{epoch:05}.weight")
-        if train_loss <= config.threshold:
+        if train_loss <= config["threshold"]:
             report(f"Saving weight at epoch {epoch}")
             break
 
@@ -102,12 +102,11 @@ import os
 import time
 import json
 import shutil
+import random
 def main():
-    config = get_config()
-    #
-    out_dir = "results"
-    with open(out_dir+'/config.json', 'w') as fp:
-        json.dump(config.__dict__, fp, indent=2)
+    config_fn = "./config.json"
+    with open(config_fn) as json_file:
+        config = json.load(json_file)
     #
     set_device(config)
     #
@@ -120,9 +119,9 @@ def main():
         numpy.random.seed(seed)
         torch.manual_seed(seed)    
         model = get_model(config)
-        os.system(f"rm -r {out_dir}/trial_{i}")
-        os.makedirs(out_dir+f"/trial_{i}", exist_ok=True)
-        optimize(dataset, model, config, out_dir+f"/trial_{i}")
+        os.system(f"rm -r results/trial_{i}")
+        os.makedirs(f"results/trial_{i}", exist_ok=True)
+        optimize(dataset, model, config, f"results/trial_{i}")
 
 if __name__=='__main__':
     main()

@@ -147,10 +147,15 @@ import os
 import json
 import pickle
 def main():
-    config = get_config()
+    config_fn = "./config.json"
+    with open(config_fn) as json_file:
+        config = json.load(json_file)
     #
     set_device(config)
-    set_seed(config)
+    #
+    dataset = get_dataset(config)
+    #
+    set_device(config)
 
     dataset = get_dataset(config)
     model = get_model(config)
