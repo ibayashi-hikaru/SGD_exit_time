@@ -35,7 +35,7 @@ def optimize(dataset, model, config, out_dir):
             loss.backward()            
             optimizer.step()
             scheduler.step()
-            if itr % 1000 == 0 :
+            if itr % 1 == 0 :
                 torch.save(model.state_dict(), out_dir + f"/{itr:05}.weight")
 
     def sharpness_update():
@@ -74,7 +74,6 @@ def optimize(dataset, model, config, out_dir):
             report(*message)
         assert not math.isnan(status['train']['loss']), 'find nan in train-loss'
         assert not math.isnan(status['test']['loss']),  'find nan in test-loss'
-        print(itr)
         if train_loss <= config["threshold"]:
             break
 
