@@ -33,7 +33,7 @@ def draw(trail, config, target_dir):
     figure.set_size_inches(12, 8)
     plt.xlabel('Steps')
     plt.ylabel('Sharpness')
-    plt.plot(t, sharpness, linestyle='--', marker='o', linewidth=2, markersize=5)
+    plt.plot(t, sharpness, linestyle='--', marker='o', linewidth=2, markersize=7)
     plt.savefig("fluctuation.pdf",dpi=100)
     #
     fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(16, 12))
