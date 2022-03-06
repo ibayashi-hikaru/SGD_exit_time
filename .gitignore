@@ -2,10 +2,12 @@
 *.DS_Store
 *\__pycache__/
 sample_data/
-DOWNLOADs/
-results/
+*/DOWNLOADs/
 *.log
 *.sh
 test_data
 *dat
-MLP_init_params.pt
+*.pt
+fluctuation/results
+stationary/results
+exit_time/results
