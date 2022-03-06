@@ -28,7 +28,7 @@ def draw(trail, config, target_dir):
     sharpness = [status['sharpness'] for status in trail]
     l2_norm = [status['l2_norm'] for status in trail]
     #
-    font = {'size' : 22}
+    font = {'size' : 27}
     matplotlib.rc('font', **font)
     figure = plt.gcf()
     figure.set_size_inches(12, 8)
