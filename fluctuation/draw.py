@@ -11,8 +11,8 @@ from utility import *
 
 # ------------------------------------------------------
 import argparse
-import datetime
-import uuid
+args = argparse.ArgumentParser()
+args.add_argument('--config_fn', default='', type=str)
 
 # -------------------------------------------------------------------
 import os
@@ -62,7 +62,7 @@ import json
 import pickle
 from hessian_eigenthings import compute_hessian_eigenthings
 def main():
-    config_fn = "./config.json"
+    config_fn = args.parse_args().config_fn
     with open(config_fn) as json_file:
         config = json.load(json_file)
     #

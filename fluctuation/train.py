@@ -5,19 +5,8 @@ itr = 0
 from utility import *
 # ------------------------------------------------------
 import argparse
-import datetime
-def get_config():
-    args = argparse.ArgumentParser()
-    # general
-    args.add_argument('--core',           default=0, type=int)
-    args.add_argument('--model',          default='MLP', type=str)
-    args.add_argument('--data',           default='CIFAR10', type=str)
-    # optim 
-    args.add_argument('--batch_size',     default=2**7, type=int)
-    args.add_argument('--lr',             default=1e-3, type=float)
-    args.add_argument('--threshold',      default=1, type=float)
-    args.add_argument('--loss', default="MSE", type=str)
-    return args.parse_args()
+args = argparse.ArgumentParser()
+args.add_argument('--config_fn', default='', type=str)
 
 # -------------------------------------------------------------------
 import torch
@@ -85,6 +74,7 @@ def optimize(dataset, model, config, out_dir):
             report(*message)
         assert not math.isnan(status['train']['loss']), 'find nan in train-loss'
         assert not math.isnan(status['test']['loss']),  'find nan in test-loss'
+        print(itr)
         if train_loss <= config["threshold"]:
             break
 
@@ -96,7 +86,7 @@ import json
 import shutil
 import random
 def main():
-    config_fn = "./config.json"
+    config_fn = args.parse_args().config_fn
     with open(config_fn) as json_file:
         config = json.load(json_file)
     #

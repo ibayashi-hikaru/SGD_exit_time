@@ -10,18 +10,8 @@ torch.backends.cudnn.benchmark = True
 from utility import *
 # ------------------------------------------------------
 import argparse
-import datetime
-def get_config():
-    args = argparse.ArgumentParser()
-    # general
-    args.add_argument('--seed',           default=1, type=int)
-    args.add_argument('--core',           default=0, type=int)
-    args.add_argument('--model',          default='MLP', type=str)
-    args.add_argument('--data',           default='CIFAR10', type=str)
-    #
-    args.add_argument('--target', default="", type=str)
-    args.add_argument('--loss', default="MSE", type=str)
-    return args.parse_args()
+args = argparse.ArgumentParser()
+args.add_argument('--config_fn', default='', type=str)
 
 
 # -------------------------------------------------------------------
@@ -147,7 +137,7 @@ import os
 import json
 import pickle
 def main():
-    config_fn = "./config.json"
+    config_fn = args.parse_args().config_fn
     with open(config_fn) as json_file:
         config = json.load(json_file)
     #
