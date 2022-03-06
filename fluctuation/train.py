@@ -38,11 +38,6 @@ def optimize(dataset, model, config, out_dir):
             if itr % 100 == 0 :
                 torch.save(model.state_dict(), out_dir + f"/{itr:05}.weight")
 
-    def sharpness_update():
-        batch_size = 256 
-        diagH = Hessian_diag.effective(dataset.train.x, model, batch_size)
-        Minimum.update_param(model, dataset.train.x, diagH)
-
     def evaluate(data):
         model.eval()
         with torch.no_grad():
