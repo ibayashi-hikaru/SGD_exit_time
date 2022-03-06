@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import uuid
 from numpy import mean, std
+from matplotlib.ticker import StrMethodFormatter
 def draw(trail, config, target_dir):
     t = [status['t'] for status in trail]
     test_loss = [status['test_loss'] for status in trail]
@@ -27,8 +28,9 @@ def draw(trail, config, target_dir):
     sharpness = [status['sharpness'] for status in trail]
     l2_norm = [status['l2_norm'] for status in trail]
     #
-    font = {'size' : 27}
+    font = {'size' : 22}
     matplotlib.rc('font', **font)
+    plt.gca().xaxis.set_major_formatter(StrMethodFormatter('{x:.1e}'))
     figure = plt.gcf()
     figure.set_size_inches(12, 8)
     plt.xlabel('Steps')
