@@ -4,10 +4,11 @@ from scipy import stats
 import numpy as np
 from matplotlib.ticker import StrMethodFormatter
 def draw(sharpness_results, lr_results, batch_size_results, r_results):
-    font = {'size' : 22}
+    font = {'size' : 29}
+    plt.rcParams["font.family"] = "serif"
     matplotlib.rc('font', **font)
     figure = plt.gcf()
-    figure.set_size_inches(8, 8)
+    figure.set_size_inches(10, 8)
     # Sharpness 
     (x, y, std, log_std, _) = sharpness_results
     x_1 = x
