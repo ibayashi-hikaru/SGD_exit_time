@@ -76,7 +76,7 @@ def main():
     trail = []
     for snapshot_id in snapshots:
         if os.path.exists(trial_dir + f"/{snapshot_id:05}.status"):
-            report(f"Epoch: {snapshot_id}")
+            report(f"step {snapshot_id}")
             with open(trial_dir + f"/{snapshot_id:05}.status", 'rb') as handle:
                 measures = pickle.load(handle)
         else:

@@ -1,12 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-"""
-import torch
-torch.set_num_threads(7)
-torch.set_num_interop_threads(7)
-torch.backends.cudnn.benchmark = True
-#"""
+itr = 0
 from utility import *
 # ------------------------------------------------------
 import argparse
@@ -36,11 +31,13 @@ def optimize(dataset, model, config, out_dir):
 
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[75, 150], gamma=0.5)
 
-    def ERM_update():
+    def ERM_update(out_dir):
+        global itr
         model.train()
         measure = {'loss':0,'accuracy':0}
         index = torch.randperm(dataset.train.n)
         for idx in torch.split(index, config["batch_size"]):
+            itr += 1
             x = dataset.train.x[idx]
             y = dataset.train.y[idx]
             o = model(x)
@@ -49,6 +46,8 @@ def optimize(dataset, model, config, out_dir):
             loss.backward()            
             optimizer.step()
             scheduler.step()
+            if itr % 1000 == 0 :
+                torch.save(model.state_dict(), out_dir + f"/{itr:05}.weight")
 
     def sharpness_update():
         batch_size = 256 
@@ -67,12 +66,11 @@ def optimize(dataset, model, config, out_dir):
             return loss, accuracy
 
     epoch = 0
-    itr = 0
     while True:
         epoch += 1
         report(f'epoch:{epoch}')
         #
-        ERM_update()
+        ERM_update(out_dir)
         #
         status = {}
         train_loss, train_acc = evaluate(dataset.train)
@@ -84,16 +82,10 @@ def optimize(dataset, model, config, out_dir):
             message     = [f'\t{mode:5}']
             message    += [f"loss:{status[mode]['loss']: 18.7f}"]
             message    += [f"accuracy:{status[mode]['accuracy']: 9.7f}"]
-            # Save Weight
-            itr += 1
-            torch.save(model.state_dict(), out_dir + f"/{itr:05}.weight")
             report(*message)
         assert not math.isnan(status['train']['loss']), 'find nan in train-loss'
         assert not math.isnan(status['test']['loss']),  'find nan in test-loss'
-        # Save Weight
-        # torch.save(model.state_dict(), out_dir + f"/{epoch:05}.weight")
         if train_loss <= config["threshold"]:
-            report(f"Saving weight at epoch {epoch}")
             break
 
 

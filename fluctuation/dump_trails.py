@@ -122,7 +122,7 @@ def dump_trails(dataset, model, config, trial_dir):
                      l2_norm,\
                      keskar_sharpness]
     for snapshot_id in snapshots:
-        report(f"Snapshot at: {snapshot_id}")
+        report(f"Snapshot at step {snapshot_id}")
         status = {}
         status['t'] = snapshot_id
         model.load_state_dict(torch.load(trial_dir + f"/{snapshot_id:05}.weight"))
