@@ -16,7 +16,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     coeff_1, _ = stats.pearsonr(x_1, y_1)
     A = np.vstack([x_1, np.ones(len(x_1))]).T
     m_1, c_1 = np.linalg.lstsq(A, y_1, rcond=None)[0]
-    plt.xlabel("$\lambda$:sharpness")
+    plt.xlabel("$\lambda$: sharpness")
     plt.ylabel("$\mathbf{E}[\\nu]$")
     plt.errorbar(x_1, y_1, yerr=std, fmt='.', capsize=2) 
     plt.plot(x_1, m_1*x_1 + c_1)
