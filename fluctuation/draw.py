@@ -51,6 +51,7 @@ def draw(trail, config, target_dir):
     ax2[0].set_xlabel('step')
     ax2[0].set_ylabel('L2 norm')
 
+    figure.set_size_inches(12, 8)
     fn = f'summary.pdf'
     fig.savefig(fn)
 
