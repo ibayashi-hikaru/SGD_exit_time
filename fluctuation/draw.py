@@ -28,13 +28,13 @@ def draw(trail, config, target_dir):
     sharpness = [status['sharpness'] for status in trail]
     l2_norm = [status['l2_norm'] for status in trail]
     #
-    font = {'size' : 27}
+    font = {'size' : 29}
     matplotlib.rc('font', **font)
     figure = plt.gcf()
     figure.set_size_inches(12, 8)
     plt.xlabel('Steps')
     plt.ylabel('Sharpness')
-    plt.plot(t, sharpness, color="magenta", linestyle='--', marker='o', linewidth=2, markersize=7)
+    plt.plot(t, sharpness, linestyle='--', marker='o', linewidth=2, markersize=7)
     plt.locator_params(axis="x", nbins=5)
     plt.savefig("fluctuation.pdf", dpi=100)
     plt.clf()
