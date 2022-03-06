@@ -36,7 +36,7 @@ def draw(trail, config, target_dir):
     plt.plot(t, sharpness, linestyle='--', marker='o', linewidth=2, markersize=5)
     plt.savefig("fluctuation.pdf",dpi=100)
     #
-    fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(12, 12))
+    fig, (ax1, ax2) = plt.subplots(2, 2, figsize=(16, 12))
     # Accuracy 
     ax1[0].plot(t, test_accuracy, lw=1.0, color='red', label="Test Accuracy")
     ax1[0].plot(t, train_accuracy,lw=1.0, color='black', label="Train Accuracy")
