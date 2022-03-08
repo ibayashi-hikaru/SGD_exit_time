@@ -8,6 +8,6 @@ sample_data/
 test_data
 *dat
 *.pt
-fluctuation/results
+*.weight
 stationary/results
 exit_time/results

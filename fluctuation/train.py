@@ -91,6 +91,8 @@ def main():
     for i in range(1):
         report(f"Trial {i}")
         seed = int(time.time())
+        print(seed)
+        exit()
         random.seed(seed)
         numpy.random.seed(seed)
         torch.manual_seed(seed)    

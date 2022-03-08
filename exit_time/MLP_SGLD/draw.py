@@ -49,7 +49,7 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.clf()
     (x, y, std, log_std, _) = batch_size_results
     x_1 = x
-    y_1 = np.log(y)
+    _1 = np.log(y)
     coeff_1, _ = stats.pearsonr(x_1, y_1)
     A = np.vstack([x_1, np.ones(len(x))]).T
     m_1, c_1 = np.linalg.lstsq(A, y_1, rcond=None)[0]
