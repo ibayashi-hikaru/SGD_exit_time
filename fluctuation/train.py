@@ -35,7 +35,7 @@ def optimize(dataset, model, config, out_dir):
             loss.backward()            
             optimizer.step()
             scheduler.step()
-            if itr % 1000 == 0 :
+            if itr % 500 == 0 :
                 torch.save(model.state_dict(), out_dir + f"/{itr:05}.weight")
 
     def evaluate(data):
