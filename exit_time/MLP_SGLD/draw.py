@@ -16,12 +16,12 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     coeff_1, _ = stats.pearsonr(x_1, y_1)
     A = np.vstack([x_1, np.ones(len(x_1))]).T
     m_1, c_1 = np.linalg.lstsq(A, y_1, rcond=None)[0]
-    plt.xlabel("$\lambda$: sharpness")
+    plt.xlabel("$\lambda_\mathrm{max}$: sharpness")
     plt.ylabel("$\mathbf{E}[\\nu]$")
     plt.errorbar(x_1, y_1, yerr=std, fmt='.', capsize=2) 
     plt.plot(x_1, m_1*x_1 + c_1)
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
-    plt.title('$\mathbf{E}[\\nu] \perp \!\!\!\! \perp \lambda$')
+    plt.title('$\mathbf{E}[\\nu] \perp \!\!\!\! \perp \lambda_\mathrm{max}$')
     plt.tight_layout()
     plt.show()
     plt.savefig("SGLD_sharpness.pdf", dpi=100)
@@ -90,12 +90,12 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     coeff_1, _ = stats.pearsonr(x_1, y_1)
     A = np.vstack([x_1, np.ones(len(x_1))]).T
     m_1, c_1 = np.linalg.lstsq(A, y_1, rcond=None)[0]
-    ax1[0].set_xlabel("$\lambda$:sharpness")
+    ax1[0].set_xlabel("$\lambda_\mathrm{max}$:sharpness")
     ax1[0].set_ylabel("$\mathbf{E}[\\nu]$")
     ax1[0].errorbar(x_1, y_1, yerr=std, fmt='.', capsize=2) 
     ax1[0].plot(x_1, m_1*x_1 + c_1)
     ax1[0].legend([f'Linear Correlation: {coeff_1:.3g}'])
-    ax1[0].set_title('$\mathbf{E}[\\nu] \perp \!\!\!\! \perp \lambda$')
+    ax1[0].set_title('$\mathbf{E}[\\nu] \perp \!\!\!\! \perp \lambda_\mathrm{max}$')
     #
     # Learning rate
     (x, y, std, log_std, _) = lr_results
