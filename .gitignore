@@ -11,3 +11,4 @@ test_data
 *.weight
 stationary/results
 exit_time/results
+stationary
