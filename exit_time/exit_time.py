@@ -37,6 +37,14 @@ def get_exit_time(config, lr, sharpness, batch_size, r):
                 model(dataset.train.x[batch], dataset.train.y[batch]).backward()
             model.update(lr / split_num)
             model.perturb(lr)
+        elif config["optim"] == "discrete_SGD":
+            data_size = dataset.train.x.size()[0]
+            shuffled_data_x = dataset.train.x[torch.randperm(data_size)]
+            shuffled_data_y = dataset.train.y[torch.randperm(data_size)]
+            mini_batch_x = shuffled_data_x[:batch_size,:]
+            mini_batch_y = shuffled_data_y[:batch_size,:]
+            model(mini_batch_x, mini_batch_y).backward()
+            model.update(lr)
         else:
             assert False
         exit_time += 1
