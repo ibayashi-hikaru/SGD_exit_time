@@ -5,10 +5,15 @@ import numpy as np
 from matplotlib.ticker import StrMethodFormatter
 def draw(sharpness_results, lr_results, batch_size_results, r_results):
     font = {'size' : 29}
-    plt.rcParams["font.family"] = "serif"
+    plt.rcParams.update({
+      "text.usetex": True,
+      "font.family": "Times"
+    })
+    plt.rcParams["font.family"] = "Times"
     matplotlib.rc('font', **font)
     figure = plt.gcf()
     figure.set_size_inches(10, 8)
+    plt.rcParams['axes.titley'] = 1.05 
     # Sharpness 
     (x, y, std, log_std, _) = sharpness_results
     x_1 = x
@@ -23,7 +28,6 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\nu] \perp \!\!\!\! \perp \lambda_\mathrm{max}$')
     plt.tight_layout()
-    plt.show()
     plt.savefig("SGLD_sharpness.pdf", dpi=100)
     #
     # Learning rate
@@ -43,7 +47,6 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\nu]\sim \exp(\eta^{-1})$')
     plt.tight_layout()
-    plt.show()
     plt.savefig("SGLD_learning_rate.pdf", dpi=100)
     # Batch size
     plt.clf()
@@ -60,7 +63,6 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\nu] \sim \exp(B)$')
     plt.tight_layout()
-    plt.show()
     plt.savefig("SGLD_batch_size.pdf", dpi=100)
     # R
     plt.clf()
@@ -78,7 +80,6 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     plt.legend([f'Linear Correlation: {coeff_1:.3g}'])
     plt.title('$\mathbf{E}[\\nu] \sim \exp(\Delta L)$')
     plt.tight_layout()
-    plt.show()
     plt.savefig("SGLD_delta_L.pdf", dpi=100)
     #
     #
@@ -138,7 +139,6 @@ def draw(sharpness_results, lr_results, batch_size_results, r_results):
     ax2[1].set_title('$\mathbf{E}[\\nu] \sim \exp(\Delta L)$')
 
     plt.tight_layout()
-    plt.show()
     fig.savefig("results.png", dpi=500)
 
 if __name__=='__main__':
