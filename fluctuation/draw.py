@@ -29,8 +29,13 @@ def draw(trail, config, target_dir):
     l2_norm = [status['l2_norm'] for status in trail]
     #
     font = {'size' : 29}
-    plt.rcParams["font.family"] = "serif"
+    plt.rcParams.update({
+      "text.usetex": True,
+      "font.family": "Times"
+    })
+    plt.rcParams["font.family"] = "Times"
     matplotlib.rc('font', **font)
+    plt.rcParams['axes.titley'] = 1.05 
     figure = plt.gcf()
     figure.set_size_inches(12, 8)
     plt.xlabel('Steps')
@@ -75,7 +80,6 @@ def draw(trail, config, target_dir):
 import os, fnmatch
 import json
 import pickle
-from hessian_eigenthings import compute_hessian_eigenthings
 def main():
     config_fn = args.parse_args().config_fn
     with open(config_fn) as json_file:
